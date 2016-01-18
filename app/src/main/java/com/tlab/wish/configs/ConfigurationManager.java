@@ -1,5 +1,6 @@
 package com.tlab.wish.configs;
 
+import com.tlab.wish.App;
 import com.tlab.wish.api_staff.WishesAPI;
 import com.tlab.wish.utils.ExceptionTracker;
 import com.tlab.wish.utils.Serialiser;
@@ -42,6 +43,8 @@ public class ConfigurationManager {
     }
 
     public void updateConfiguration(){
+        if(!App.getInstance().isOnline()){return;}
+
         Observable<Configuration> observable = WishesAPI.getInstanse().getConfiguration();
 
         final Subscription subscription = observable

@@ -3,6 +3,8 @@ package com.tlab.wish;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.tlab.wish.utils.Utils;
+
 /**
  * Created by andranik on 1/18/16.
  */
@@ -36,7 +38,7 @@ public class Preferences {
     public void setPin(String value) {
         final SharedPreferences.Editor editor = getEditor();
 
-        editor.putString(PIN_KEY, value);
+        editor.putString(PIN_KEY, Utils.toSHA1(value));
         editor.apply();
     }
 }
