@@ -1,5 +1,6 @@
 package com.tlab.wish.api_staff;
 
+import com.tlab.wish.configs.Configuration;
 import com.tlab.wish.wishes.Wishes;
 
 import retrofit2.GsonConverterFactory;
@@ -31,6 +32,12 @@ public class WishesAPI implements WishAPIInterface{
         apiService = retrofit.create(WishAPIInterface.class);
     }
 
+
+    @Override
+    public Observable<Configuration> getConfiguration() {
+        return apiService.getConfiguration();
+    }
+
     @Override
     public Observable<Wishes> getWishes() {
         return apiService.getWishes();
@@ -40,12 +47,4 @@ public class WishesAPI implements WishAPIInterface{
     public Observable<Wishes> getWishes(String content) {
         return apiService.getWishes(content);
     }
-
-//    public void getWishes(Callback<Wishes> callback) {
-//        apiService.getWishes().enqueue(callback);
-//    }
-//
-//    public void getWishes(String content, Callback<Wishes> callback) {
-//        apiService.getWishes(content).enqueue(callback);
-//    }
 }

@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.tlab.wish.configs.ConfigurationManager;
 
 /**
  * Created by andranik on 1/18/16.
@@ -51,6 +52,8 @@ public class App extends Application{
         deviceId = Settings.Secure.getString(App.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID);
 
         initImageLoader(getApplicationContext());
+
+        ConfigurationManager.getInstanse().updateConfiguration();
     }
 
     public void runTaskOnUiThread(Runnable uiTask){
