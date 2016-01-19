@@ -1,28 +1,17 @@
-package com.tlab.wish.activities;
+package com.tlab.wish.startup;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.tlab.wish.R;
 import com.tlab.wish.main_view_staff.MainActivity;
+import com.tlab.wish.pin_staff.CheckPinActivity;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class StartupActivity extends MvpActivity<StartupView, StartupPresenter> implements StartupView{
-
-    @Bind(R.id.startup_pin_layout)
-    View pinLayout;
-
-    @Bind(R.id.startup_pin_edittext)
-    EditText pinEdittext;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,22 +34,8 @@ public class StartupActivity extends MvpActivity<StartupView, StartupPresenter> 
     }
 
     @Override
-    public void showPinLayout() {
-        pinLayout.setVisibility(View.VISIBLE);
-        pinEdittext.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                presenter.chechPin(s.toString());
-            }
-        });
+    public void goToPinActivity() {
+        startActivity(new Intent(this, CheckPinActivity.class));
     }
 
 }

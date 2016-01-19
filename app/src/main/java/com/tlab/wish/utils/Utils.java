@@ -9,6 +9,8 @@ import java.security.NoSuchAlgorithmException;
 public class Utils {
 
     public static String toSHA1(String convert) {
+        if(convert == null){return null;}
+
         try {
             final char[] HEX_CHARS = "0123456789ABCDEF".toCharArray();
             final MessageDigest md = MessageDigest.getInstance("SHA-1");

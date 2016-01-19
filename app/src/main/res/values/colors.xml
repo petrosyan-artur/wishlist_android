@@ -2,10 +2,13 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorDark">#1A237E</color>
     <color name="colorAccent">#FF4081</color>
 
 
     <color name="toolbar_dark_blue_tr">#153F51B5</color>
     <color name="toolbar_dark_blue_tr_2">#303F51B5</color>
-    <color name="default_bg">#efefef</color>
+    <color name="default_bg">#E8EAF6</color>
+    <color name="default_bg_pr">#9FA8DA</color>
+    <color name="default_bg_pr_tr">#909FA8DA</color>
 </resources>

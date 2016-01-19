@@ -35,6 +35,12 @@ public class Preferences {
         return mPreferences.getString(PIN_KEY, null);
     }
 
+    public boolean hasPin(){
+        String pin = App.getInstance().getPrefs().getPin();
+
+        return pin != null && pin.length() > 0;
+    }
+
     public void setPin(String value) {
         final SharedPreferences.Editor editor = getEditor();
 

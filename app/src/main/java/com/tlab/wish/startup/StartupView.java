@@ -1,4 +1,4 @@
-package com.tlab.wish.activities;
+package com.tlab.wish.startup;
 
 import com.hannesdorfmann.mosby.mvp.MvpView;
 
@@ -9,6 +9,5 @@ public interface StartupView extends MvpView{
 
     void goToMainActivity();
 
-    void showPinLayout();
-
+    void goToPinActivity();
 }
