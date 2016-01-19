@@ -16,8 +16,7 @@
             android:name=".activities.StartupActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:noHistory="true"
-            android:excludeFromRecents="true">
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
