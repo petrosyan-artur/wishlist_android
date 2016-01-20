@@ -10,8 +10,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.easyandroidanimations.library.Animation;
+import com.easyandroidanimations.library.ShakeAnimation;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.tlab.wish.App;
 import com.tlab.wish.CustomTypeFace;
@@ -25,6 +26,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public abstract class PinActivity extends MvpActivity<PinView, PinPresenter> implements PinView{
+
+    @Bind(R.id.pin_root)
+    View root;
 
     @Bind(R.id.pin_title)
     TextView titleTv;
@@ -82,9 +86,13 @@ public abstract class PinActivity extends MvpActivity<PinView, PinPresenter> imp
 
     @Override
     public void showWrongPinError() {
+        new ShakeAnimation(root)
+                .setNumOfShakes(3)
+                .setDuration(Animation.DURATION_SHORT)
+                .animate();
+
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(300);
-        Toast.makeText(this, "WRONG PIN", Toast.LENGTH_SHORT).show();
+        v.vibrate(200);
     }
 
 
