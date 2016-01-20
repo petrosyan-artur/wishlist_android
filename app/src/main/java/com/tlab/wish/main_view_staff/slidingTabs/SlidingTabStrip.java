@@ -1,4 +1,4 @@
-package com.tlab.wish.slidingTabs;
+package com.tlab.wish.main_view_staff.slidingTabs;
 
 import android.content.Context;
 import android.graphics.Canvas;

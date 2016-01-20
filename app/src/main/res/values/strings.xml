@@ -5,4 +5,7 @@
     <string name="old_pin_title">ENTER OLD PIN</string>
     <string name="new_pin_title">ENTER NEW PIN</string>
     <string name="repeat_pin_title">REPEAT PIN</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
