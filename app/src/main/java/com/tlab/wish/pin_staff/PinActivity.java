@@ -52,21 +52,7 @@ public abstract class PinActivity extends MvpActivity<PinView, PinPresenter> imp
 
 
     private void initKeypad(){
-        for(final TextView tv : digits){
-            tv.setTypeface(App.getInstance().getTypeface(CustomTypeFace.MyTypeFace.ROBOTO_LIGHT));
-
-            tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for (EditText et : digitEts) {
-                        if (et.hasFocus()) {
-                            et.setText(tv.getText());
-                            break;
-                        }
-                    }
-                }
-            });
-        }
+        ButterKnife.apply(digits, INIT_DIGITS);
     }
 
     @Override
@@ -113,14 +99,7 @@ public abstract class PinActivity extends MvpActivity<PinView, PinPresenter> imp
     }
 
     private void initEdittexts(){
-        for(int i = 0; i < digitEts.size(); i++){
-            digitEts.get(i).setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
-        }
+        ButterKnife.apply(digitEts, DISABLE_EDITTEXT_TOUCH);
 
         digitEts.get(0).addTextChangedListener(new TextWatcher() {
             @Override
@@ -201,5 +180,36 @@ public abstract class PinActivity extends MvpActivity<PinView, PinPresenter> imp
             }
         });
     }
+
+    ButterKnife.Action<View> DISABLE_EDITTEXT_TOUCH = new ButterKnife.Action<View>() {
+        @Override
+        public void apply(View view, int index) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        }
+    };
+
+    ButterKnife.Action<TextView> INIT_DIGITS = new ButterKnife.Action<TextView>() {
+        @Override
+        public void apply(final TextView view, int index) {
+            view.setTypeface(App.getInstance().getTypeface(CustomTypeFace.MyTypeFace.ROBOTO_LIGHT));
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (EditText et : digitEts) {
+                        if (et.hasFocus()) {
+                            et.setText(view.getText());
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+    };
 
 }
