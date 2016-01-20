@@ -80,6 +80,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         if(fab.getVisibility() != View.VISIBLE) {
             new SlideInAnimation(fab)
                     .setDirection(Animation.DIRECTION_RIGHT)
+                    .setDuration(250)
                     .setInterpolator(new DecelerateInterpolator())
                     .animate();
         }
@@ -89,6 +90,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     public void hideFab() {
         new SlideOutAnimation(fab)
                 .setDirection(Animation.DIRECTION_RIGHT)
+                .setDuration(250)
                 .setInterpolator(new AccelerateInterpolator())
                 .animate();
     }
