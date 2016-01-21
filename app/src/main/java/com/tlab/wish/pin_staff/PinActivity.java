@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -18,6 +19,7 @@ import com.tlab.wish.App;
 import com.tlab.wish.CustomTypeFace;
 import com.tlab.wish.R;
 import com.tlab.wish.main_view_staff.MainActivity;
+import com.tlab.wish.utils.ViewUtils;
 
 import java.util.List;
 
@@ -26,6 +28,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public abstract class PinActivity extends MvpActivity<PinView, PinPresenter> implements PinView{
+
+    @Bind(R.id.pin_toolbar)
+    Toolbar toolbar;
 
     @Bind(R.id.pin_root)
     View root;
@@ -49,6 +54,8 @@ public abstract class PinActivity extends MvpActivity<PinView, PinPresenter> imp
         ButterKnife.bind(this);
 
         presenter.onCreate();
+
+        ViewUtils.configureToolbar(this, toolbar, R.drawable.toolbar_close);
 
         initEdittexts();
         initKeypad();

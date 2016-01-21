@@ -8,14 +8,14 @@
 
     <android.support.v7.widget.Toolbar
         style="@style/ToolBarStyle"
-        android:id="@+id/startup_toolbar"/>
+        android:id="@+id/pin_toolbar"/>
 
 
     <RelativeLayout
         android:id="@+id/pin_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/startup_toolbar">
+        android:layout_below="@+id/pin_toolbar">
 
         <TextView
             android:id="@+id/pin_title"

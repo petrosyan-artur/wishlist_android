@@ -33,23 +33,36 @@
         </activity>
         <activity
             android:name=".pin_staff.CheckPinActivity"
+            android:label="@string/pin_title"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:noHistory="true"
-            android:excludeFromRecents="true">
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".pin_staff.SetPinActivity"
+            android:label="@string/set_pin_title"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:noHistory="true"
-            android:excludeFromRecents="true">
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".pin_staff.RemovePinActivity"
+            android:label="@string/remove_pin_title"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:noHistory="true"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".new_wish.NewWishActivity"
+            android:configChanges="orientation"
+            android:excludeFromRecents="true">
+        </activity>
+        <activity
+            android:name=".authentication.AuthActivity"
+            android:configChanges="orientation"
             android:excludeFromRecents="true">
         </activity>
     </application>
