@@ -10,4 +10,6 @@ public interface MainView extends MvpView{
     void showFab();
 
     void hideFab();
+
+    void openNewWish();
 }

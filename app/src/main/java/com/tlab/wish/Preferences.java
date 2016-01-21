@@ -12,6 +12,7 @@ public class Preferences {
     private static final String PREFERENSES_NAME = "prefs";
 
     private static final String PIN_KEY = "pin_key";
+    private static final String TOKEN_KEY = "token_key";
 
     private SharedPreferences mPreferences;
 
@@ -23,6 +24,7 @@ public class Preferences {
         final SharedPreferences.Editor editor = getEditor();
 
         editor.remove(PIN_KEY);
+        editor.remove(TOKEN_KEY);
 
         editor.apply();
     }
@@ -45,6 +47,21 @@ public class Preferences {
         final SharedPreferences.Editor editor = getEditor();
 
         editor.putString(PIN_KEY, Utils.toSHA1(value));
+        editor.apply();
+    }
+
+    public String getToken() {
+        return mPreferences.getString(TOKEN_KEY, null);
+    }
+
+    public boolean isAuthenticated(){
+        return getToken() != null && getToken().length() > 0;
+    }
+
+    public void setToken(String value) {
+        final SharedPreferences.Editor editor = getEditor();
+
+        editor.putString(TOKEN_KEY, value);
         editor.apply();
     }
 }

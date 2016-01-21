@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".authentication.AuthActivity">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/ToolBarStyle"
+        android:id="@+id/auth_toolbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/auth_toolbar">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/auth_signup_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/auth_signup_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:text="Your anonymous login:"/>
+
+                <TextView
+                    android:id="@+id/auth_signup_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="30dp"
+                    android:text="khjo7644"/>
+
+
+                <EditText
+                    android:id="@+id/auth_signup_pass1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:inputType="textPassword"
+                    android:hint="Enter password"/>
+
+                <EditText
+                    android:id="@+id/auth_signup_pass2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:inputType="textPassword"
+                    android:hint="Repeat password"/>
+
+
+                <TextView
+                    android:id="@+id/auth_signup_signin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:padding="10dp"
+                    android:text="Already have account? Sign in"/>
+
+                <TextView
+                    android:id="@+id/auth_signup_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:text="Please make sure to remember your password and login, as it is not possible to recover it"/>
+
+                <Button
+                    android:id="@+id/auth_signup_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sign Up"/>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/auth_signin_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/auth_signin_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Username"/>
+
+                <EditText
+                    android:id="@+id/auth_signin_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:inputType="textPassword"
+                    android:hint="Password"/>
+
+                <Button
+                    android:id="@+id/auth_signin_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sign In"/>
+
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+    </ScrollView>
+
+    <include
+        android:id="@+id/auth_progress"
+        layout="@layout/dim_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/auth_toolbar"/>
+
+</RelativeLayout>

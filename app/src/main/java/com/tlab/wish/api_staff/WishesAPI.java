@@ -1,5 +1,6 @@
 package com.tlab.wish.api_staff;
 
+import com.tlab.wish.authentication.AuthInfo;
 import com.tlab.wish.configs.Configuration;
 import com.tlab.wish.wishes.Wishes;
 
@@ -46,5 +47,10 @@ public class WishesAPI implements WishAPIInterface{
     @Override
     public Observable<Wishes> getWishes(String content) {
         return apiService.getWishes(content);
+    }
+
+    @Override
+    public Observable<AuthInfo> getAuthInfo() {
+        return apiService.getAuthInfo();
     }
 }

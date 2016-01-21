@@ -1,5 +1,6 @@
 package com.tlab.wish.api_staff;
 
+import com.tlab.wish.authentication.AuthInfo;
 import com.tlab.wish.configs.Configuration;
 import com.tlab.wish.wishes.Wishes;
 
@@ -21,4 +22,7 @@ public interface WishAPIInterface {
 
     @GET("wishes")
     Observable<Wishes> getWishes(@Query("content") String content);
+
+    @GET("users")
+    Observable<AuthInfo> getAuthInfo();
 }

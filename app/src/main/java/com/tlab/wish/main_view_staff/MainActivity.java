@@ -1,5 +1,6 @@
 package com.tlab.wish.main_view_staff;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,10 +16,12 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.tlab.wish.R;
 import com.tlab.wish.main_view_staff.slidingTabs.SlidingTabLayout;
 import com.tlab.wish.main_view_staff.slidingTabs.ViewPagerAdapter;
+import com.tlab.wish.new_wish.NewWishActivity;
 
 import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends MvpActivity<MainView, MainPresenter> implements MainView {
 
@@ -74,6 +77,10 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         });
     }
 
+    @OnClick(R.id.fab)
+    public void onFabClicked(){
+        presenter.onFabClicked();
+    }
 
     @Override
     public void showFab() {
@@ -93,5 +100,10 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
                 .setDuration(250)
                 .setInterpolator(new AccelerateInterpolator())
                 .animate();
+    }
+
+    @Override
+    public void openNewWish() {
+        startActivity(new Intent(this, NewWishActivity.class));
     }
 }

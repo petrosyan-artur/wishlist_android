@@ -16,4 +16,10 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
             getView().showFab();
         }
     }
+
+    void onFabClicked(){
+        if(!isViewAttached()){return;}
+
+        getView().openNewWish();
+    }
 }
