@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -77,6 +78,11 @@ public class App extends Application{
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
 
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+
+    public String getUserAgent(){
+        return String.format("android; %s; %s; %s", Build.VERSION.RELEASE, Build.MODEL, BuildConfig.VERSION_NAME);
     }
 
     public static void initImageLoader(Context context) {

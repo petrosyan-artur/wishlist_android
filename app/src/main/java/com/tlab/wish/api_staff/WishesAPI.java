@@ -1,9 +1,16 @@
 package com.tlab.wish.api_staff;
 
+import com.tlab.wish.App;
 import com.tlab.wish.authentication.AuthInfo;
 import com.tlab.wish.configs.Configuration;
 import com.tlab.wish.wishes.Wishes;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.RxJavaCallAdapterFactory;
@@ -28,11 +35,36 @@ public class WishesAPI implements WishAPIInterface{
                 .baseUrl(WishAPIInterface.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(getHttpClient())
                 .build();
 
         apiService = retrofit.create(WishAPIInterface.class);
     }
 
+    private OkHttpClient getHttpClient(){
+        return new OkHttpClient.Builder()
+                .addInterceptor(
+                        new Interceptor() {
+                            @Override
+                            public Response intercept(Interceptor.Chain chain) throws IOException {
+                                Request original = chain.request();
+
+                                // Request customization: add request headers
+                                Request.Builder requestBuilder = original.newBuilder()
+                                        .header("my-user-agent", App.getInstance().getUserAgent());
+
+                                if(App.getInstance().getPrefs().isAuthenticated()){
+                                    requestBuilder.header("x-access-token", App.getInstance().getPrefs().getToken());
+                                }
+
+                                requestBuilder.method(original.method(), original.body());
+
+                                Request request = requestBuilder.build();
+                                return chain.proceed(request);
+                            }
+                        })
+                .build();
+    }
 
     @Override
     public Observable<Configuration> getConfiguration() {
