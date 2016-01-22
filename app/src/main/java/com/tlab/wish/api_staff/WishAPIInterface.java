@@ -1,10 +1,18 @@
 package com.tlab.wish.api_staff;
 
 import com.tlab.wish.authentication.AuthInfo;
+import com.tlab.wish.authentication.AuthResponse;
+import com.tlab.wish.authentication.SignInInfo;
+import com.tlab.wish.authentication.SignUpInfo;
+import com.tlab.wish.authentication.UserInfo;
 import com.tlab.wish.configs.Configuration;
 import com.tlab.wish.wishes.Wishes;
 
+import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -25,4 +33,13 @@ public interface WishAPIInterface {
 
     @GET("users")
     Observable<AuthInfo> getAuthInfo();
+
+    @POST("register")
+    Observable<AuthResponse> register(@Body SignUpInfo signUpInfo);
+
+    @POST("authenticate")
+    Observable<AuthResponse> authenticate(@Body SignInInfo signInInfo);
+
+    @PUT("private/users")
+    Observable<ResponseBody> updateUserInfo(@Body UserInfo userInfo);
 }

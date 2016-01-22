@@ -17,9 +17,9 @@ public interface AuthView extends MvpView{
 
     void showPasswordsDontMatchError();
 
-    void showAuthError();
+    void showAuthError(String message);
 
-    void showUnknownError();
+    void showUnknownError(boolean finishActivity);
 
     void onLoginSuccess();
 }

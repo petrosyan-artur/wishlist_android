@@ -1,8 +1,11 @@
 package com.tlab.wish.authentication;
 
+import com.tlab.wish.App;
 import com.tlab.wish.api_staff.WishesAPI;
+import com.tlab.wish.utils.ExceptionTracker;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -11,9 +14,9 @@ import rx.schedulers.Schedulers;
  */
 public class AuthHelper {
 
-    public static void getAuthInfo(final AuthPresenter authPresenter){
+    public static Subscription getAuthInfo(final AuthPresenter authPresenter){
 
-        WishesAPI.getInstanse().getAuthInfo()
+        return WishesAPI.getInstanse().getAuthInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AuthInfo>() {
@@ -25,7 +28,7 @@ public class AuthHelper {
                     public void onError(Throwable e) {
                         if(authPresenter.isViewAttached()){
                             authPresenter.getView().hideLoading();
-                            authPresenter.getView().showUnknownError();
+                            authPresenter.getView().showUnknownError(true);
                         }
                     }
 
@@ -40,13 +43,59 @@ public class AuthHelper {
 
     }
 
-    public static void signUp(final AuthPresenter authPresenter, final SignUpInfo signUpInfo){
-        //TODO test
-        authPresenter.onLoginSuccess();
+    public static Subscription signUp(final AuthPresenter authPresenter, final SignUpInfo signUpInfo){
+
+        return WishesAPI.getInstanse().register(signUpInfo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AuthResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        authPresenter.showUnknownError(false);
+                        ExceptionTracker.trackException(e);
+                    }
+
+                    @Override
+                    public void onNext(AuthResponse authResponse) {
+                        authPresenter.onAuthComplete(authResponse, signUpInfo.getUsername());
+                    }
+                });
     }
 
-    public static void signIn(final AuthPresenter authPresenter, final SignInInfo signInInfo){
-        //TODO test
-        authPresenter.onLoginSuccess();
+    public static Subscription signIn(final AuthPresenter authPresenter, final SignInInfo signInInfo){
+        return WishesAPI.getInstanse().authenticate(signInInfo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AuthResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        authPresenter.showUnknownError(false);
+                        ExceptionTracker.trackException(e);
+                    }
+
+                    @Override
+                    public void onNext(AuthResponse authResponse) {
+                        authPresenter.onAuthComplete(authResponse, signInInfo.getUsername());
+                    }
+                });
+    }
+
+    public static void updateUserInfo(){
+        if(!App.getInstance().getPrefs().isAuthenticated()){return;}
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUsername(App.getInstance().getPrefs().getUsername());
+
+        WishesAPI.getInstanse().updateUserInfo(userInfo)
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
 }

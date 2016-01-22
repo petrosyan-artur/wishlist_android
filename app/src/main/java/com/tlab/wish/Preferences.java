@@ -13,6 +13,7 @@ public class Preferences {
 
     private static final String PIN_KEY = "pin_key";
     private static final String TOKEN_KEY = "token_key";
+    private static final String USERNAME = "username";
 
     private SharedPreferences mPreferences;
 
@@ -25,6 +26,7 @@ public class Preferences {
 
         editor.remove(PIN_KEY);
         editor.remove(TOKEN_KEY);
+        editor.remove(USERNAME);
 
         editor.apply();
     }
@@ -62,6 +64,17 @@ public class Preferences {
         final SharedPreferences.Editor editor = getEditor();
 
         editor.putString(TOKEN_KEY, value);
+        editor.apply();
+    }
+
+    public String getUsername() {
+        return mPreferences.getString(USERNAME, null);
+    }
+
+    public void setUsername(String value) {
+        final SharedPreferences.Editor editor = getEditor();
+
+        editor.putString(USERNAME, value);
         editor.apply();
     }
 }

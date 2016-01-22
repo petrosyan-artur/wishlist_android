@@ -1,14 +1,32 @@
 package com.tlab.wish.authentication;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
+import com.tlab.wish.App;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import rx.Subscription;
 
 /**
  * Created by andranik on 1/21/16.
  */
 public class AuthPresenter extends MvpBasePresenter<AuthView>{
 
+    private Set<Subscription> subscriptions = new HashSet<>();
+
     public void onCreate() {
-        AuthHelper.getAuthInfo(this);
+        Subscription subscription = AuthHelper.getAuthInfo(this);
+
+        subscriptions.add(subscription);
+    }
+
+    public void onDestroy(){
+        for(Subscription sub : subscriptions){
+            if(!sub.isUnsubscribed()){
+                sub.unsubscribe();
+            }
+        }
     }
 
     public void onSignUpClick(SignUpInfo si){
@@ -27,7 +45,9 @@ public class AuthPresenter extends MvpBasePresenter<AuthView>{
 
         if(!isViewAttached()){return;}
         getView().showLoading();
-        AuthHelper.signUp(this, si);
+
+        Subscription sub = AuthHelper.signUp(this, si);
+        subscriptions.add(sub);
     }
 
     public void onSignInClick(SignInInfo si){
@@ -37,11 +57,27 @@ public class AuthPresenter extends MvpBasePresenter<AuthView>{
 
         if(!isViewAttached()){return;}
         getView().showLoading();
-        AuthHelper.signIn(this, si);
+
+        Subscription sub = AuthHelper.signIn(this, si);
+        subscriptions.add(sub);
     }
 
-    public void onLoginSuccess(){
+    public void onAuthComplete(AuthResponse authResponse, String username){
         if(!isViewAttached()){return;}
-        getView().onLoginSuccess();
+
+        if(authResponse.isSuccess()){
+            App.getInstance().getPrefs().setToken(authResponse.getToken());
+            App.getInstance().getPrefs().setUsername(username);
+            getView().onLoginSuccess();
+        } else {
+            getView().hideLoading();
+            getView().showAuthError(authResponse.getMessage());
+        }
+    }
+
+    public void showUnknownError(boolean finsihActivity){
+        if(!isViewAttached()){return;}
+        getView().hideLoading();
+        getView().showUnknownError(finsihActivity);
     }
 }

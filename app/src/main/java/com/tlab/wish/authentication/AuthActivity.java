@@ -21,6 +21,7 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.tlab.wish.App;
 import com.tlab.wish.CustomTypeFace;
 import com.tlab.wish.R;
+import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.utils.ViewUtils;
 
 import butterknife.Bind;
@@ -110,6 +111,11 @@ public class AuthActivity extends MvpActivity<AuthView, AuthPresenter> implement
 
     @OnClick(R.id.auth_signin_btn)
     public void onSignInClick(){
+        if(!App.getInstance().isOnline()){
+            DialogUtils.showOfflineDialog(this);
+            return;
+        }
+
         presenter.onSignInClick(SignInInfo.newInstance(
                 signInUsername.getText().toString(),
                 signInPass.getText().toString()
@@ -118,6 +124,11 @@ public class AuthActivity extends MvpActivity<AuthView, AuthPresenter> implement
 
     @OnClick(R.id.auth_signup_btn)
     public void onSignUnClick(){
+        if(!App.getInstance().isOnline()){
+            DialogUtils.showOfflineDialog(this);
+            return;
+        }
+
         presenter.onSignUpClick(SignUpInfo.newInstance(
                 signUpUsername.getText().toString(),
                 signUpPass1.getText().toString(),
@@ -169,19 +180,25 @@ public class AuthActivity extends MvpActivity<AuthView, AuthPresenter> implement
     }
 
     @Override
-    public void showAuthError() {
-
+    public void showAuthError(String message) {
+        DialogUtils.showAlertDialog(this, message);
     }
 
     @Override
-    public void showUnknownError() {
-
+    public void showUnknownError(boolean finishActivity) {
+        DialogUtils.showSomethingWentWrong(this);
     }
 
     @Override
     public void onLoginSuccess() {
         setResult(RESULT_OK);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 
     @NonNull

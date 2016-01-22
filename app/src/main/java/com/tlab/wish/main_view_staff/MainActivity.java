@@ -13,10 +13,12 @@ import com.easyandroidanimations.library.Animation;
 import com.easyandroidanimations.library.SlideInAnimation;
 import com.easyandroidanimations.library.SlideOutAnimation;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
+import com.tlab.wish.App;
 import com.tlab.wish.R;
 import com.tlab.wish.main_view_staff.slidingTabs.SlidingTabLayout;
 import com.tlab.wish.main_view_staff.slidingTabs.ViewPagerAdapter;
 import com.tlab.wish.new_wish.NewWishActivity;
+import com.tlab.wish.utils.DialogUtils;
 
 import butterknife.Bind;
 import butterknife.BindColor;
@@ -79,6 +81,11 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 
     @OnClick(R.id.fab)
     public void onFabClicked(){
+        if(!App.getInstance().isOnline()){
+            DialogUtils.showOfflineDialog(this);
+            return;
+        }
+
         presenter.onFabClicked();
     }
 

@@ -14,6 +14,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.tlab.wish.authentication.AuthHelper;
 import com.tlab.wish.configs.ConfigurationManager;
 
 /**
@@ -55,6 +56,8 @@ public class App extends Application{
         initImageLoader(getApplicationContext());
 
         ConfigurationManager.getInstanse().updateConfiguration();
+
+        AuthHelper.updateUserInfo();
     }
 
     public void runTaskOnUiThread(Runnable uiTask){

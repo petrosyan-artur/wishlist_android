@@ -2,6 +2,10 @@ package com.tlab.wish.api_staff;
 
 import com.tlab.wish.App;
 import com.tlab.wish.authentication.AuthInfo;
+import com.tlab.wish.authentication.AuthResponse;
+import com.tlab.wish.authentication.SignInInfo;
+import com.tlab.wish.authentication.SignUpInfo;
+import com.tlab.wish.authentication.UserInfo;
 import com.tlab.wish.configs.Configuration;
 import com.tlab.wish.wishes.Wishes;
 
@@ -11,6 +15,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.RxJavaCallAdapterFactory;
@@ -84,5 +89,20 @@ public class WishesAPI implements WishAPIInterface{
     @Override
     public Observable<AuthInfo> getAuthInfo() {
         return apiService.getAuthInfo();
+    }
+
+    @Override
+    public Observable<AuthResponse> register(SignUpInfo signUpInfo) {
+        return apiService.register(signUpInfo);
+    }
+
+    @Override
+    public Observable<AuthResponse> authenticate(SignInInfo signInInfo) {
+        return apiService.authenticate(signInInfo);
+    }
+
+    @Override
+    public Observable<ResponseBody> updateUserInfo(UserInfo userInfo) {
+        return apiService.updateUserInfo(userInfo);
     }
 }
