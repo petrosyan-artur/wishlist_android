@@ -4,6 +4,7 @@ import com.tlab.wish.App;
 import com.tlab.wish.api_staff.WishesAPI;
 import com.tlab.wish.utils.ExceptionTracker;
 
+import okhttp3.ResponseBody;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -96,6 +97,19 @@ public class AuthHelper {
 
         WishesAPI.getInstanse().updateUserInfo(userInfo)
                 .subscribeOn(Schedulers.io())
-                .subscribe();
+                .subscribe(new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ExceptionTracker.trackException(e);
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                    }
+                });
     }
 }
