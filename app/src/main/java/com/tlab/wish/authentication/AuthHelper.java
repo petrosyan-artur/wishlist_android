@@ -92,10 +92,7 @@ public class AuthHelper {
     public static void updateUserInfo(){
         if(!App.getInstance().getPrefs().isAuthenticated()){return;}
 
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUsername(App.getInstance().getPrefs().getUsername());
-
-        WishesAPI.getInstanse().updateUserInfo(userInfo)
+        WishesAPI.getInstanse().updateUserInfo()
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ResponseBody>() {
                     @Override

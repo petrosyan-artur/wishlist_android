@@ -16,4 +16,6 @@
     <string name="no_internet_connection">Please check your internet connection and try again.
     </string>
     <string name="something_went_wrong">Sorry, something went wrong. Please, try again.</string>
+    <string name="new_wish_select_bg_title">SELECT WISH BACKGROUND</string>
+    <string name="new_wish_title">WRITE NEW WISH</string>
 </resources>

@@ -4,7 +4,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_bg_pr"
+    android:orientation="vertical"
     tools:context="com.tlab.wish.new_wish.NewWishActivity">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/ToolBarStyle"
+        android:id="@+id/new_wish_toolbar"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/new_wish_toolbar"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/new_wish_et"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:gravity="top"
+            android:inputType="textMultiLine|textCapSentences|textLongMessage"
+            android:background="@color/default_bg"/>
+
+        <LinearLayout
+            android:id="@+id/new_wish_decor_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layout_above="@+id/new_wish_bottom_layout"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/new_wish_decor_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="7dp"
+                android:textColor="@android:color/white"
+                android:textSize="18dp"
+                android:text="@string/new_wish_select_bg_title"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/new_wish_decor_rw"
+                android:scrollbars="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/new_wish_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary"
+            android:layout_alignParentBottom="true">
+
+
+            <ImageView
+                android:id="@+id/new_wish_colors_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_new_wish"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/new_wish_progress"
+        layout="@layout/dim_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/new_wish_toolbar"
+        android:visibility="gone"/>
+
+
+
 
 </RelativeLayout>

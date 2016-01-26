@@ -23,7 +23,7 @@ public class AuthPresenter extends MvpBasePresenter<AuthView>{
 
     public void onDestroy(){
         for(Subscription sub : subscriptions){
-            if(!sub.isUnsubscribed()){
+            if(sub != null && !sub.isUnsubscribed()){
                 sub.unsubscribe();
             }
         }

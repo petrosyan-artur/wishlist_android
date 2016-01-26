@@ -17,5 +17,8 @@ public @Data class Configs implements Serializable{
     @Expose
     private int maxSymbols = 512; // Default value
 
-    //TODO probably will have more configs here
+    @SerializedName("decorations")
+    @Expose
+    public Decorations decorations;
+
 }

@@ -14,7 +14,7 @@ import com.tlab.wish.CustomTypeFace;
  */
 public class ViewUtils {
 
-    public static Toolbar configureToolbar(AppCompatActivity activity, Toolbar toolbar, int navIcon){
+    public static Toolbar configureToolbar(final AppCompatActivity activity, Toolbar toolbar, int navIcon){
         activity.setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(navIcon);
 
@@ -27,6 +27,13 @@ public class ViewUtils {
                 break;
             }
         }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
 
         return toolbar;
     }

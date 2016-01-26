@@ -1,11 +1,12 @@
 package com.tlab.wish.api_staff;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tlab.wish.App;
 import com.tlab.wish.authentication.AuthInfo;
 import com.tlab.wish.authentication.AuthResponse;
 import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
-import com.tlab.wish.authentication.UserInfo;
 import com.tlab.wish.configs.Configuration;
 import com.tlab.wish.wishes.Wishes;
 
@@ -38,12 +39,18 @@ public class WishesAPI implements WishAPIInterface{
     private WishesAPI(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(WishAPIInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(getGson()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(getHttpClient())
                 .build();
 
         apiService = retrofit.create(WishAPIInterface.class);
+    }
+
+    private Gson getGson(){
+        return new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
     }
 
     private OkHttpClient getHttpClient(){
@@ -87,6 +94,16 @@ public class WishesAPI implements WishAPIInterface{
     }
 
     @Override
+    public Observable<Wishes> getWishesAuthenticated() {
+        return apiService.getWishesAuthenticated();
+    }
+
+    @Override
+    public Observable<Wishes> getWishesAuthenticated(String content) {
+        return apiService.getWishesAuthenticated(content);
+    }
+
+    @Override
     public Observable<AuthInfo> getAuthInfo() {
         return apiService.getAuthInfo();
     }
@@ -102,7 +119,7 @@ public class WishesAPI implements WishAPIInterface{
     }
 
     @Override
-    public Observable<ResponseBody> updateUserInfo(UserInfo userInfo) {
-        return apiService.updateUserInfo(userInfo);
+    public Observable<ResponseBody> updateUserInfo() {
+        return apiService.updateUserInfo();
     }
 }
