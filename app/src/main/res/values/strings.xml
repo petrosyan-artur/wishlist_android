@@ -17,5 +17,6 @@
     </string>
     <string name="something_went_wrong">Sorry, something went wrong. Please, try again.</string>
     <string name="new_wish_select_bg_title">SELECT WISH BACKGROUND</string>
-    <string name="new_wish_title">WRITE NEW WISH</string>
+    <string name="new_wish_title">NEW WISH</string>
+    <string name="new_wish_send">SEND</string>
 </resources>

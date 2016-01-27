@@ -186,7 +186,7 @@ public class AuthActivity extends MvpActivity<AuthView, AuthPresenter> implement
 
     @Override
     public void showUnknownError(boolean finishActivity) {
-        DialogUtils.showSomethingWentWrong(this, true);
+        DialogUtils.showSomethingWentWrong(this, finishActivity);
     }
 
     @Override

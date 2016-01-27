@@ -46,7 +46,31 @@ public class NewWishPresenter extends MvpBasePresenter<NewWishView> {
     }
 
     public void sendNewWish(String content){
+        if(content.length() == 0){return;}
+
+        if(!isViewAttached()){return;}
+        getView().showLoading();
+
         sendWishSub = WishHelper.sendNewWish(this, content);
+    }
+
+
+    public void onWishSent(NewWishResponse response){
+        if(!isViewAttached()){return;}
+
+        if(response.isSuccess()){
+            getView().hideLoading();
+            getView().onWishSendSuccess();
+        } else {
+            getView().hideLoading();
+            getView().showAuthError(response.getMessage());
+        }
+    }
+
+    public void showUnknownError(boolean finsihActivity){
+        if(!isViewAttached()){return;}
+        getView().hideLoading();
+        getView().showUnknownError(finsihActivity);
     }
 
     public void onDestroy(){

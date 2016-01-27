@@ -3,11 +3,14 @@ package com.tlab.wish.api_staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tlab.wish.App;
+import com.tlab.wish.BuildConfig;
 import com.tlab.wish.authentication.AuthInfo;
 import com.tlab.wish.authentication.AuthResponse;
 import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
 import com.tlab.wish.configs.Configuration;
+import com.tlab.wish.new_wish.NewWishResponse;
+import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
 import java.io.IOException;
@@ -17,6 +20,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.RxJavaCallAdapterFactory;
@@ -54,28 +58,35 @@ public class WishesAPI implements WishAPIInterface{
     }
 
     private OkHttpClient getHttpClient(){
-        return new OkHttpClient.Builder()
-                .addInterceptor(
-                        new Interceptor() {
-                            @Override
-                            public Response intercept(Interceptor.Chain chain) throws IOException {
-                                Request original = chain.request();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor(
+                new Interceptor() {
+                    @Override
+                    public Response intercept(Interceptor.Chain chain) throws IOException {
+                        Request original = chain.request();
 
-                                // Request customization: add request headers
-                                Request.Builder requestBuilder = original.newBuilder()
-                                        .header("my-user-agent", App.getInstance().getUserAgent());
+                        // Request customization: add request headers
+                        Request.Builder requestBuilder = original.newBuilder()
+                                .header("my-user-agent", App.getInstance().getUserAgent());
 
-                                if(App.getInstance().getPrefs().isAuthenticated()){
-                                    requestBuilder.header("x-access-token", App.getInstance().getPrefs().getToken());
-                                }
+                        if(App.getInstance().getPrefs().isAuthenticated()){
+                            requestBuilder.header("x-access-token", App.getInstance().getPrefs().getToken());
+                        }
 
-                                requestBuilder.method(original.method(), original.body());
+                        requestBuilder.method(original.method(), original.body());
 
-                                Request request = requestBuilder.build();
-                                return chain.proceed(request);
-                            }
-                        })
-                .build();
+                        Request request = requestBuilder.build();
+                        return chain.proceed(request);
+                    }
+                });
+
+        if(BuildConfig.DEBUG){
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(loggingInterceptor);
+        }
+
+        return builder.build();
     }
 
     @Override
@@ -101,6 +112,16 @@ public class WishesAPI implements WishAPIInterface{
     @Override
     public Observable<Wishes> getWishesAuthenticated(String content) {
         return apiService.getWishesAuthenticated(content);
+    }
+
+    @Override
+    public Observable<NewWishResponse> sendNewWish(Wish wish) {
+        return apiService.sendNewWish(wish);
+    }
+
+    @Override
+    public Observable<NewWishResponse> updateWish(Wish wish) {
+        return apiService.updateWish(wish);
     }
 
     @Override

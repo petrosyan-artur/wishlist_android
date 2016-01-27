@@ -9,7 +9,22 @@
 
     <android.support.v7.widget.Toolbar
         style="@style/ToolBarStyle"
-        android:id="@+id/new_wish_toolbar"/>
+        android:id="@+id/new_wish_toolbar">
+
+        <TextView
+            android:id="@+id/new_wish_send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:textSize="18dp"
+            android:background="@drawable/tab_item_bg"
+            android:textColor="@android:color/white"
+            android:text="@string/new_wish_send"/>
+
+    </android.support.v7.widget.Toolbar>
 
 
     <LinearLayout

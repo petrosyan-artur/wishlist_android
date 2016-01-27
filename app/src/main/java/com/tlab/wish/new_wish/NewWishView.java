@@ -18,5 +18,11 @@ public interface NewWishView extends MvpView{
 
     void hideLoading();
 
+    void showAuthError(String message);
+
+    void showUnknownError(boolean finishActivity);
+
+    void onWishSendSuccess();
+
     void decorateView(DecorItem item);
 }

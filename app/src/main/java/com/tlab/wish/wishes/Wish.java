@@ -8,7 +8,7 @@ import lombok.Data;
 public @Data class Wish {
 
     @SerializedName("_id")
-    @Expose(serialize = false)
+    @Expose
     public String Id;
     @SerializedName("content")
     @Expose

@@ -8,14 +8,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
+import com.tlab.wish.App;
 import com.tlab.wish.R;
 import com.tlab.wish.authentication.AuthActivity;
 import com.tlab.wish.configs.ConfigurationManager;
 import com.tlab.wish.new_wish.decorations.ColorDecorItem;
 import com.tlab.wish.new_wish.decorations.DecorAdapter;
 import com.tlab.wish.new_wish.decorations.DecorItem;
+import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.utils.ViewUtils;
 
 import butterknife.Bind;
@@ -74,6 +77,16 @@ public class NewWishActivity extends MvpActivity<NewWishView, NewWishPresenter> 
         recyclerView.setLayoutManager(llm);
     }
 
+    @OnClick(R.id.new_wish_send)
+    public void onNewWishSendClick(){
+        if(!App.getInstance().isOnline()){
+            DialogUtils.showOfflineDialog(this);
+            return;
+        }
+
+        presenter.sendNewWish(newWishEt.getText().toString());
+    }
+
     @OnClick(R.id.new_wish_colors_btn)
     public void onNewWishColorsBtnClick(){
         if(decorColorAdapter == null){
@@ -117,6 +130,22 @@ public class NewWishActivity extends MvpActivity<NewWishView, NewWishPresenter> 
     @Override
     public void hideLoading() {
         progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showAuthError(String message) {
+        DialogUtils.showAlertDialog(this, message);
+    }
+
+    @Override
+    public void showUnknownError(boolean finishActivity) {
+        DialogUtils.showSomethingWentWrong(this, finishActivity);
+    }
+
+    @Override
+    public void onWishSendSuccess() {
+        Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
