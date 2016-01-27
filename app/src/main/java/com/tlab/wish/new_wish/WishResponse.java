@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * Created by andranik on 1/27/16.
  */
-public @Data class NewWishResponse {
+public @Data class WishResponse {
 
     @SerializedName("success")
     @Expose

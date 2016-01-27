@@ -18,11 +18,11 @@ import rx.schedulers.Schedulers;
  */
 public class WishHelper {
 
-    public static Subscription sendNewWish(final NewWishPresenter presenter, String content){
-        return WishesAPI.getInstanse().sendNewWish(getWish(content))
+    public static Subscription updateWish(final WishPresenter presenter, String id, String content, DecorItem decorItem){
+        return WishesAPI.getInstanse().updateWish(getWish(id, content, getDecoration(decorItem)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NewWishResponse>() {
+                .subscribe(new Subscriber<WishResponse>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -34,25 +34,54 @@ public class WishHelper {
                     }
 
                     @Override
-                    public void onNext(NewWishResponse newWishResponse) {
-                        presenter.onWishSent(newWishResponse);
+                    public void onNext(WishResponse wishResponse) {
+                        presenter.onWishSent(wishResponse);
                     }
                 });
     }
 
-    private static Wish getWish(String content){
+    public static Subscription sendNewWish(final WishPresenter presenter, String content){
+        return WishesAPI.getInstanse().sendNewWish(getWish(content, getDecoration()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<WishResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        presenter.showUnknownError(false);
+                        ExceptionTracker.trackException(e);
+                    }
+
+                    @Override
+                    public void onNext(WishResponse wishResponse) {
+                        presenter.onWishSent(wishResponse);
+                    }
+                });
+    }
+
+    private static Wish getWish(String content, Decoration decoration){
+        return getWish(null, content, decoration);
+    }
+
+    private static Wish getWish(String id, String content, Decoration decoration){
         Wish wish = new Wish();
 
+        wish.setId(id);
         wish.setContent(content);
-        wish.setDecoration(getDecoration());
+        wish.setDecoration(decoration);
 
         return wish;
     }
 
     private static Decoration getDecoration(){
-        Decoration decoration = new Decoration();
+        return getDecoration(LastSelectedDecor.getInstanse().getSelectedDecodeItem());
+    }
 
-        DecorItem di = LastSelectedDecor.getInstanse().getSelectedDecodeItem();
+    private static Decoration getDecoration(DecorItem di){
+        Decoration decoration = new Decoration();
 
         if(di instanceof ColorDecorItem){
             decoration.setColor(((ColorDecorItem) di).getColorStr());

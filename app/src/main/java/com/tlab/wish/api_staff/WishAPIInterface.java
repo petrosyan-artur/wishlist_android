@@ -5,7 +5,7 @@ import com.tlab.wish.authentication.AuthResponse;
 import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
 import com.tlab.wish.configs.Configuration;
-import com.tlab.wish.new_wish.NewWishResponse;
+import com.tlab.wish.new_wish.WishResponse;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
@@ -39,10 +39,10 @@ public interface WishAPIInterface {
     Observable<Wishes> getWishesAuthenticated(@Query("content") String content);
 
     @POST("private/wishes")
-    Observable<NewWishResponse> sendNewWish(@Body Wish wish);
+    Observable<WishResponse> sendNewWish(@Body Wish wish);
 
     @PUT("private/wishes")
-    Observable<NewWishResponse> updateWish(@Body Wish wish);
+    Observable<WishResponse> updateWish(@Body Wish wish);
 
     @GET("users")
     Observable<AuthInfo> getAuthInfo();

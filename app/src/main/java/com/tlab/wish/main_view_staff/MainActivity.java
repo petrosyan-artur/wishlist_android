@@ -111,6 +111,17 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 
     @Override
     public void openNewWish() {
+//        Wish wish = new Wish(); // TODO TEST!!!!!!!!!!!!!!!
+//        wish.setId("56a8872e3e37edb57bf06e91");
+//        wish.setContent("I wish i can touch the cat");
+//        Decoration dec = new Decoration();
+//        dec.setColor("239,142,231");
+//        wish.setDecoration(dec);
+//
+//        Intent intent = new Intent(this, EditWishActivity.class);
+//        intent.putExtra(EditWishActivity.EDIT_WISH_KEY, new EditWish(wish));
+//
+//        startActivity(intent);
         startActivity(new Intent(this, NewWishActivity.class));
     }
 }

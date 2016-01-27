@@ -6,7 +6,7 @@ import com.tlab.wish.new_wish.decorations.DecorItem;
 /**
  * Created by andranik on 1/21/16.
  */
-public interface NewWishView extends MvpView{
+public interface WishView extends MvpView{
 
     void goToAuthentication();
 

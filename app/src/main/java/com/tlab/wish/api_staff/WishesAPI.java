@@ -9,7 +9,7 @@ import com.tlab.wish.authentication.AuthResponse;
 import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
 import com.tlab.wish.configs.Configuration;
-import com.tlab.wish.new_wish.NewWishResponse;
+import com.tlab.wish.new_wish.WishResponse;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
@@ -115,12 +115,12 @@ public class WishesAPI implements WishAPIInterface{
     }
 
     @Override
-    public Observable<NewWishResponse> sendNewWish(Wish wish) {
+    public Observable<WishResponse> sendNewWish(Wish wish) {
         return apiService.sendNewWish(wish);
     }
 
     @Override
-    public Observable<NewWishResponse> updateWish(Wish wish) {
+    public Observable<WishResponse> updateWish(Wish wish) {
         return apiService.updateWish(wish);
     }
 

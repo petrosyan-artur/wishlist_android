@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.tlab.wish" >
+<manifest package="com.tlab.wish"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".App"
@@ -14,22 +14,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon" >
+        tools:replace="android:icon">
         <activity
             android:name=".startup.StartupActivity"
             android:configChanges="orientation"
             android:noHistory="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".main_view_staff.MainActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".pin_staff.CheckPinActivity"
@@ -37,7 +37,7 @@
             android:excludeFromRecents="true"
             android:label="@string/pin_title"
             android:noHistory="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".pin_staff.SetPinActivity"
@@ -45,7 +45,7 @@
             android:excludeFromRecents="true"
             android:label="@string/set_pin_title"
             android:noHistory="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".pin_staff.RemovePinActivity"
@@ -53,20 +53,27 @@
             android:excludeFromRecents="true"
             android:label="@string/remove_pin_title"
             android:noHistory="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".new_wish.NewWishActivity"
             android:configChanges="orientation"
             android:excludeFromRecents="true"
             android:label="@string/new_wish_title"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity
+            android:name=".new_wish.EditWishActivity"
+            android:configChanges="orientation"
+            android:excludeFromRecents="true"
+            android:label="@string/edit_wish_title"
+            android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
         <activity
             android:name=".authentication.AuthActivity"
             android:configChanges="orientation"
             android:excludeFromRecents="true"
-            android:label="@string/signup_title" >
+            android:label="@string/signup_title">
         </activity>
     </application>
 
