@@ -31,7 +31,7 @@ public class EditWishActivity extends WishActivity {
             return;
         }
 
-        presenter.sendWish(editWish.getId(), editWish.getContent());
+        presenter.sendWish(editWish.getId(), newWishEt.getText().toString());
     }
 
     @NonNull
