@@ -43,11 +43,13 @@ public abstract class WishPresenter extends MvpBasePresenter<WishView> {
         }
     }
 
-    public void sendWish(String id, String content){
-        if(content.length() == 0){return;}
+    public boolean sendWish(String id, String content){
+        if(content.length() == 0){return false;}
 
-        if(!isViewAttached()){return;}
+        if(!isViewAttached()){return false;}
         getView().showLoading();
+
+        return true;
     }
 
     public void onWishSent(WishResponse response){

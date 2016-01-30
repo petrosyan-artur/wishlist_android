@@ -1,6 +1,13 @@
 package com.tlab.wish.new_wish;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.tlab.wish.App;
 import com.tlab.wish.api_staff.WishesAPI;
+import com.tlab.wish.configs.ConfigurationManager;
 import com.tlab.wish.new_wish.decorations.ColorDecorItem;
 import com.tlab.wish.new_wish.decorations.DecorItem;
 import com.tlab.wish.new_wish.decorations.LastSelectedDecor;
@@ -91,5 +98,29 @@ public class WishHelper {
         }
 
         return decoration;
+    }
+
+    public static void limitTextSymbols(final EditText editText){
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int maxChars = ConfigurationManager.getInstanse().getConfigs().getMaxSymbols();
+
+                if(s.length() > maxChars){
+                    Toast.makeText(App.getInstance(), "No more characters allowed", Toast.LENGTH_SHORT).show();
+
+                    editText.setText(s.toString().substring(0, maxChars));
+                    editText.setSelection(editText.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 }

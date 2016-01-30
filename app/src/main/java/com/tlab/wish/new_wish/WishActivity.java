@@ -71,6 +71,8 @@ public abstract class WishActivity extends MvpActivity<WishView, WishPresenter> 
     public void initNewWishActivity() {
         final Typeface ROBOTO_REGULAR = App.getInstance().getTypeface(CustomTypeFace.MyTypeFace.ROBOTO_REGULAR);
         newWishEt.setTypeface(ROBOTO_REGULAR);
+        WishHelper.limitTextSymbols(newWishEt);
+
         decorTitle.setTypeface(ROBOTO_REGULAR);
 
         recyclerView.setHasFixedSize(true);

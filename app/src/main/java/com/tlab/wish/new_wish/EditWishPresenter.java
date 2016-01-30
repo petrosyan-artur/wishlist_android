@@ -17,8 +17,13 @@ public class EditWishPresenter extends WishPresenter{
     }
 
     @Override
-    public void sendWish(String id, String content) {
-        super.sendWish(id, content);
-        sendWishSub = WishHelper.updateWish(this, id, content, decorItem);
+    public boolean sendWish(String id, String content) {
+        boolean send = super.sendWish(id, content);
+
+        if(send) {
+            sendWishSub = WishHelper.updateWish(this, id, content, decorItem);
+        }
+
+        return send;
     }
 }

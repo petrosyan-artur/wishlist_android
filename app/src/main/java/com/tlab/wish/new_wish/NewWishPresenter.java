@@ -10,10 +10,14 @@ public class NewWishPresenter extends WishPresenter{
 
 
     @Override
-    public void sendWish(String id, String content){
-        super.sendWish(id, content);
+    public boolean sendWish(String id, String content){
+        boolean send = super.sendWish(id, content);
 
-        sendWishSub = WishHelper.sendNewWish(this, content);
+        if(send) {
+            sendWishSub = WishHelper.sendNewWish(this, content);
+        }
+
+        return send;
     }
 
     @Override
