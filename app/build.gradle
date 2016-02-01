@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 
 repositories {
     maven { url "https://jitpack.io" }
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
 }
 
 android {
@@ -45,4 +48,7 @@ dependencies {
     compile 'com.hannesdorfmann.mosby:mvp:2.0.0'
     compile 'com.hannesdorfmann.mosby:viewstate:2.0.0'
     compile 'com.github.2359media:EasyAndroidAnimations:0.8'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
 }

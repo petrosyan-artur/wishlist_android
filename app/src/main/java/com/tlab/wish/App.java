@@ -14,6 +14,8 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.tlab.wish.authentication.AuthHelper;
 import com.tlab.wish.configs.ConfigurationManager;
 
@@ -40,9 +42,17 @@ public class App extends Application{
         return mInstance;
     }
 
+    public static RefWatcher getRefWatcher(Context context) {
+        App application = (App) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
+    private RefWatcher refWatcher;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        refWatcher = installLeakCanary();
         mInstance = this;
 
         mUiHandler = new Handler(Looper.getMainLooper());
@@ -58,6 +68,14 @@ public class App extends Application{
         ConfigurationManager.getInstanse().updateConfiguration();
 
         AuthHelper.updateUserInfo();
+    }
+
+    protected RefWatcher installLeakCanary() {
+        if(BuildConfig.DEBUG){
+            return LeakCanary.install(this);
+        }
+
+        return RefWatcher.DISABLED;
     }
 
     public void runTaskOnUiThread(Runnable uiTask){
