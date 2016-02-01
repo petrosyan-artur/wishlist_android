@@ -84,12 +84,12 @@
             <ImageView
                 android:id="@+id/new_wish_colors_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_new_wish"
+                android:layout_height="45dp"
+                android:src="@drawable/colors_icon"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"/>
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"/>
 
         </LinearLayout>
 

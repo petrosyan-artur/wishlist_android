@@ -47,6 +47,9 @@ public abstract class WishActivity extends MvpActivity<WishView, WishPresenter> 
     @Bind(R.id.new_wish_decor_title)
     TextView decorTitle;
 
+    @Bind(R.id.new_wish_colors_btn)
+    View colorBtn;
+
     private DecorAdapter decorColorAdapter;
     private DecorAdapter decorPictureAdapter;
 
@@ -92,9 +95,11 @@ public abstract class WishActivity extends MvpActivity<WishView, WishPresenter> 
         }
 
         if(isDecorViewVisible()){
+            colorBtn.setSelected(false);
             hideDecorView();
         } else {
             recyclerView.setAdapter(decorColorAdapter);
+            colorBtn.setSelected(true);
             showDecorView();
         }
     }
