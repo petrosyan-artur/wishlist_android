@@ -1,6 +1,5 @@
 package com.tlab.wish.new_wish.decorations;
 
-import android.graphics.Color;
 import android.view.View;
 
 import com.tlab.wish.configs.Decorations;
@@ -37,7 +36,7 @@ public class ColorDecorItem extends DecorItem implements Serializable{
 
     public ColorDecorItem(String colorStr) {
         this.colorStr = colorStr;
-        this.color = getColor(colorStr);
+        this.color = DecorationUtils.getColor(colorStr);
     }
 
     @Override
@@ -71,15 +70,5 @@ public class ColorDecorItem extends DecorItem implements Serializable{
         return colorStr;
     }
 
-    private int getColor(String colorStr){
-        String[] colorStrs = colorStr.split(",");
 
-        int[] rgb = new int[]{
-                Integer.parseInt(colorStrs[0]),
-                Integer.parseInt(colorStrs[1]),
-                Integer.parseInt(colorStrs[2])
-        };
-
-        return Color.rgb(rgb[0], rgb[1], rgb[2]);
-    }
 }

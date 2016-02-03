@@ -24,6 +24,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.RxJavaCallAdapterFactory;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -105,6 +106,11 @@ public class WishesAPI implements WishAPIInterface{
     }
 
     @Override
+    public Observable<Wishes> loadMoreWishes(@Query("limit") String limit) {
+        return apiService.loadMoreWishes(limit);
+    }
+
+    @Override
     public Observable<Wishes> getWishesAuthenticated() {
         return apiService.getWishesAuthenticated();
     }
@@ -112,6 +118,11 @@ public class WishesAPI implements WishAPIInterface{
     @Override
     public Observable<Wishes> getWishesAuthenticated(String content) {
         return apiService.getWishesAuthenticated(content);
+    }
+
+    @Override
+    public Observable<Wishes> loadMoreWishesAuthenticated(@Query("limit") String limit) {
+        return apiService.loadMoreWishes(limit);
     }
 
     @Override

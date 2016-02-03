@@ -5,13 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 
-import com.easyandroidanimations.library.Animation;
-import com.easyandroidanimations.library.SlideInAnimation;
-import com.easyandroidanimations.library.SlideOutAnimation;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.tlab.wish.App;
 import com.tlab.wish.R;
@@ -25,7 +19,7 @@ import butterknife.BindColor;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends MvpActivity<MainView, MainPresenter> implements MainView {
+public class MainActivity extends MvpActivity<MainView, MainPresenter> implements MainView, FragmentInteractionListener {
 
     @Bind(R.id.pager)
     ViewPager pager;
@@ -71,7 +65,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         });
 
         tabs.setViewPager(pager);
-        tabs.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+        tabs.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 presenter.onPageSelected(position);
@@ -91,26 +85,38 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 
     @Override
     public void showFab() {
-        if(fab.getVisibility() != View.VISIBLE) {
-            new SlideInAnimation(fab)
-                    .setDirection(Animation.DIRECTION_RIGHT)
-                    .setDuration(250)
-                    .setInterpolator(new DecelerateInterpolator())
-                    .animate();
-        }
+        fab.show();
+//        if(fab.getVisibility() != View.VISIBLE) {
+//            new SlideInAnimation(fab)
+//                    .setDirection(Animation.DIRECTION_RIGHT)
+//                    .setDuration(250)
+//                    .setInterpolator(new DecelerateInterpolator())
+//                    .animate();
+//        }
     }
 
     @Override
     public void hideFab() {
-        new SlideOutAnimation(fab)
-                .setDirection(Animation.DIRECTION_RIGHT)
-                .setDuration(250)
-                .setInterpolator(new AccelerateInterpolator())
-                .animate();
+        fab.hide();
+//        new SlideOutAnimation(fab)
+//                .setDirection(Animation.DIRECTION_RIGHT)
+//                .setDuration(250)
+//                .setInterpolator(new AccelerateInterpolator())
+//                .animate();
     }
 
     @Override
     public void openNewWish() {
         startActivity(new Intent(this, NewWishActivity.class));
+    }
+
+    @Override
+    public void onScrollUp() {
+        showFab();
+    }
+
+    @Override
+    public void onScrollDown() {
+        hideFab();
     }
 }

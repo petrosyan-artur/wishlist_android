@@ -32,11 +32,17 @@ public interface WishAPIInterface {
     @GET("wishes")
     Observable<Wishes> getWishes(@Query("content") String content);
 
+    @GET("wishes")
+    Observable<Wishes> loadMoreWishes(@Query("limit") String limit);
+
     @GET("private/wishes")
     Observable<Wishes> getWishesAuthenticated();
 
     @GET("private/wishes")
     Observable<Wishes> getWishesAuthenticated(@Query("content") String content);
+
+    @GET("private/wishes")
+    Observable<Wishes> loadMoreWishesAuthenticated(@Query("limit") String limit);
 
     @POST("private/wishes")
     Observable<WishResponse> sendNewWish(@Body Wish wish);

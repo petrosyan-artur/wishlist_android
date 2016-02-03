@@ -21,4 +21,8 @@ public @Data class Configs implements Serializable{
     @Expose
     public Decorations decorations;
 
+    @SerializedName("wish_limit")
+    @Expose
+    public int wishLimit = 12; // Default value
+
 }
