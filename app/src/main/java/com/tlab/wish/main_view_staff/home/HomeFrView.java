@@ -1,17 +1,10 @@
 package com.tlab.wish.main_view_staff.home;
 
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
-import com.tlab.wish.wishes.Wish;
-
-import java.util.List;
+import com.tlab.wish.main_view_staff.wish_list_base.WishListBaseView;
 
 /**
  * Created by andranik on 2/3/16.
  */
-public interface HomeFrView extends MvpLceView<List<Wish>>{
-
-    void setData(List<Wish> data, boolean fromBegining);
-
-    void showLoadMoreLoading();
+public interface HomeFrView extends WishListBaseView{
 
 }

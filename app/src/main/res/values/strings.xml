@@ -20,4 +20,6 @@
     <string name="new_wish_title">NEW WISH</string>
     <string name="edit_wish_title">EDIT WISH</string>
     <string name="new_wish_send">SEND</string>
+    <string name="auth_error_text">You must sign in to view this content</string>
+    <string name="sign_in_btn">SIGN IN</string>
 </resources>

@@ -1,13 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".main_view_staff.my_wishes.MyWishesFragment">
+             android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="MY WISHES"/>
+    <include layout="@layout/base_wish_list"/>
 
 </FrameLayout>

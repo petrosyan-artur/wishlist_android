@@ -33,9 +33,11 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
         WishesAdapter.Footer>{
 
     private List<Wish> data;
+    private WishItemClickListener listener;
 
-    public WishesAdapter() {
-        data = new ArrayList<>();
+    public WishesAdapter(WishItemClickListener listener) {
+        this.data = new ArrayList<>();
+        this.listener = listener;
     }
 
     public void addData(List<Wish> newData, boolean fromBegining) {
@@ -93,7 +95,7 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
         Wish wish = data.get(position);
 
         ItemViewHolder vh = (ItemViewHolder) holder;
-        vh.render(wish);
+        vh.render(wish, listener);
     }
 
     @Override
@@ -122,14 +124,40 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
             likes.setTypeface(ROBOTO_REGULAR);
         }
 
-        public void render(Wish wish){
+        public void render(final Wish wish, final WishItemClickListener listener){
             try {
                 username.setText(wish.getUsername());
+                username.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (listener != null) {
+                            listener.onWishUserNameClicked(wish);
+                        }
+                    }
+                });
+
                 date.setText(wish.getFormatedDate());
                 text.setText(wish.getContent());
                 likes.setText(String.valueOf(wish.getLikes()));
                 likeBtn.setEnabled(wish.isLiked());
+                likeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (listener != null) {
+                            listener.onWishLikeClicked(wish);
+                        }
+                    }
+                });
+
                 cardView.setCardBackgroundColor(DecorationUtils.getColor(wish.getDecoration().getColor()));
+                cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (listener != null){
+                            listener.onWishItemClicked(wish);
+                        }
+                    }
+                });
             } catch (Exception e){
                 ExceptionTracker.trackException(e);
             }
@@ -152,5 +180,11 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
     }
 
     public static class Footer{
+    }
+
+    public interface WishItemClickListener{
+        void onWishItemClicked(Wish wish);
+        void onWishLikeClicked(Wish wish);
+        void onWishUserNameClicked(Wish wish);
     }
 }
