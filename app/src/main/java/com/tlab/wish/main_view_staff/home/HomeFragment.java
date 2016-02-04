@@ -17,6 +17,7 @@ import com.tlab.wish.R;
 import com.tlab.wish.main_view_staff.FragmentInteractionListener;
 import com.tlab.wish.utils.MyRecyclerOnScrollListener;
 import com.tlab.wish.wishes.Wish;
+import com.tlab.wish.wishes.WishSentEvent;
 import com.tlab.wish.wishes.WishesAdapter;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 public class HomeFragment
         extends MvpLceFragment<SwipeRefreshLayout, List<Wish>, HomeFrView, HomeFrPresenter>
@@ -94,6 +96,23 @@ public class HomeFragment
         } catch (ClassCastException e){
             throw new ClassCastException("Main activity must implement FragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().registerSticky(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    public void onEvent(WishSentEvent event){
+        loadData(true);
+        EventBus.getDefault().removeStickyEvent(event);
     }
 
     @OnClick(R.id.errorView)

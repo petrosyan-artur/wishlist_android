@@ -5,6 +5,7 @@ import com.tlab.wish.App;
 import com.tlab.wish.R;
 import com.tlab.wish.api_staff.WishesAPI;
 import com.tlab.wish.utils.AppOfflineException;
+import com.tlab.wish.wishes.DateFormater;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
@@ -43,13 +44,15 @@ public class HomeFrPresenter extends MvpBasePresenter<HomeFrView>{
 
         if(App.getInstance().getPrefs().isAuthenticated()){
             subscription = WishesAPI.getInstanse().getWishesAuthenticated()
-                    .map(removeDuplicateWishes(existingWishes))
+                    .map(removeDuplicateAndSortWishes(existingWishes))
+                    .map(initFormatedDate())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(getSubscriber(pullToRefresh));
         } else {
             subscription = WishesAPI.getInstanse().getWishes()
-                    .map(removeDuplicateWishes(existingWishes))
+                    .map(removeDuplicateAndSortWishes(existingWishes))
+                    .map(initFormatedDate())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(getSubscriber(pullToRefresh));
@@ -71,11 +74,13 @@ public class HomeFrPresenter extends MvpBasePresenter<HomeFrView>{
 
         if(App.getInstance().getPrefs().isAuthenticated()){
             subscription = WishesAPI.getInstanse().loadMoreWishesAuthenticated(String.valueOf(loadedCount))
+                    .map(initFormatedDate())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(getSubscriber(false));
         } else {
             subscription = WishesAPI.getInstanse().loadMoreWishes(String.valueOf(loadedCount))
+                    .map(initFormatedDate())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(getSubscriber(false));
@@ -103,20 +108,32 @@ public class HomeFrPresenter extends MvpBasePresenter<HomeFrView>{
     }
 
 
-    private Func1<Wishes, Wishes> removeDuplicateWishes(final List<Wish> existingWishes){
+    private Func1<Wishes, Wishes> removeDuplicateAndSortWishes(final List<Wish> existingWishes){
         return new Func1<Wishes, Wishes>() {
             @Override
             public Wishes call(Wishes wishes) {
                 List<Wish> filtered = new ArrayList<>();
 
                 for(Wish w : wishes.getWishes()){
-                    if(existingWishes.contains(w))
-                        continue;
-
-                    filtered.add(w);
+                    if(!existingWishes.contains(w)) {
+                        filtered.add(w);
+                    }
                 }
 
                 wishes.setWishes(filtered);
+
+                return wishes;
+            }
+        };
+    }
+
+    private Func1<Wishes, Wishes> initFormatedDate(){
+        return new Func1<Wishes, Wishes>() {
+            @Override
+            public Wishes call(Wishes wishes) {
+                for(Wish w : wishes.getWishes()){
+                    w.setFormatedDate(new DateFormater(w.getCreatedDate()).getFormatedDate());
+                }
 
                 return wishes;
             }
@@ -140,7 +157,7 @@ public class HomeFrPresenter extends MvpBasePresenter<HomeFrView>{
             @Override
             public void onNext(Wishes wishes) {
                 if (isViewAttached()){
-                    getView().setData(wishes.getWishes());
+                    getView().setData(wishes.getWishes(), pullToRefresh);
                     getView().showContent();
                 }
             }

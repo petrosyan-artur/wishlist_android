@@ -13,11 +13,13 @@ import com.tlab.wish.main_view_staff.slidingTabs.SlidingTabLayout;
 import com.tlab.wish.main_view_staff.slidingTabs.ViewPagerAdapter;
 import com.tlab.wish.new_wish.NewWishActivity;
 import com.tlab.wish.utils.DialogUtils;
+import com.tlab.wish.wishes.WishSentEvent;
 
 import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends MvpActivity<MainView, MainPresenter> implements MainView, FragmentInteractionListener {
 
@@ -107,7 +109,16 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 
     @Override
     public void openNewWish() {
-        startActivity(new Intent(this, NewWishActivity.class));
+        startActivityForResult(new Intent(this, NewWishActivity.class), NewWishActivity.REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == NewWishActivity.REQUEST_CODE && resultCode == RESULT_OK){
+            EventBus.getDefault().postSticky(new WishSentEvent());
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

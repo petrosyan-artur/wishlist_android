@@ -146,6 +146,7 @@ public abstract class WishActivity extends MvpActivity<WishView, WishPresenter> 
     @Override
     public void onWishSendSuccess() {
         Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show();
+        setResult(RESULT_OK);
         finish();
     }
 

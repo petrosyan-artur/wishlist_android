@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-public @ToString class Wish {
+public @ToString class Wish implements Comparable<Wish>{
 
     @SerializedName("_id")
     @Expose
@@ -21,6 +21,10 @@ public @ToString class Wish {
     @Expose(serialize = false)
     @Getter @Setter
     public String createdDate;
+    @SerializedName("timestamp")
+    @Expose(serialize = false)
+    @Getter @Setter
+    public Integer timestamp;
     @SerializedName("decoration")
     @Expose
     @Getter @Setter
@@ -46,6 +50,9 @@ public @ToString class Wish {
     @Getter @Setter
     public boolean liked;
 
+    @Getter @Setter
+    public String formatedDate;
+
     @Override
     public int hashCode() {
         return Id.hashCode();
@@ -59,5 +66,16 @@ public @ToString class Wish {
             return true;
 
         return getId().equals(((Wish)o).getId());
+    }
+
+    @Override
+    public int compareTo(Wish another) {
+        if(getTimestamp() > another.getTimestamp()){
+            return -1;
+        } else if(getTimestamp() < another.getTimestamp()){
+            return 1;
+        }
+
+        return 0;
     }
 }

@@ -15,6 +15,7 @@ import com.tlab.wish.CustomTypeFace;
 import com.tlab.wish.R;
 import com.tlab.wish.configs.ConfigurationManager;
 import com.tlab.wish.new_wish.decorations.DecorationUtils;
+import com.tlab.wish.utils.ExceptionTracker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +86,6 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
 
     @Override
     protected void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-
     }
 
     @Override
@@ -93,18 +93,11 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
         Wish wish = data.get(position);
 
         ItemViewHolder vh = (ItemViewHolder) holder;
-
-        vh.username.setText(wish.getUsername());
-        vh.date.setText(wish.getCreatedDate());
-        vh.text.setText(wish.getContent());
-        vh.likes.setText(String.valueOf(wish.getLikes()));
-        vh.likeBtn.setEnabled(wish.isLiked());
-        vh.cardView.setCardBackgroundColor(DecorationUtils.getColor(wish.getDecoration().getColor()));
+        vh.render(wish);
     }
 
     @Override
     protected void onBindFooterViewHolder(RecyclerView.ViewHolder holder, int position) {
-
     }
 
 
@@ -128,27 +121,36 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
             text.setTypeface(ROBOTO_REGULAR);
             likes.setTypeface(ROBOTO_REGULAR);
         }
+
+        public void render(Wish wish){
+            try {
+                username.setText(wish.getUsername());
+                date.setText(wish.getFormatedDate());
+                text.setText(wish.getContent());
+                likes.setText(String.valueOf(wish.getLikes()));
+                likeBtn.setEnabled(wish.isLiked());
+                cardView.setCardBackgroundColor(DecorationUtils.getColor(wish.getDecoration().getColor()));
+            } catch (Exception e){
+                ExceptionTracker.trackException(e);
+            }
+        }
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder{
-
         public HeaderViewHolder(View itemView) {
             super(itemView);
         }
     }
 
     public static class FooterViewHolder extends RecyclerView.ViewHolder{
-
         public FooterViewHolder(View itemView) {
             super(itemView);
         }
     }
 
     public static class Header{
-
     }
 
     public static class Footer{
-
     }
 }

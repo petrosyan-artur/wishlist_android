@@ -49,6 +49,7 @@ dependencies {
     compile 'com.hannesdorfmann.mosby:viewstate:2.0.0'
     compile 'com.github.2359media:EasyAndroidAnimations:0.8'
     compile 'com.karumi:headerrecyclerview:1.0.3'
+    compile 'de.greenrobot:eventbus:2.4.0'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
