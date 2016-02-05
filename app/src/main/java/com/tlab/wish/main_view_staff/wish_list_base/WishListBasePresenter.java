@@ -8,7 +8,6 @@ import com.tlab.wish.wishes.DateFormater;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +16,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -43,11 +41,13 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
         }
 
         Subscription subscription = getWishesObservable()
-                    .map(removeDuplicateAndSortWishes(existingWishes))
-                    .map(initFormatedDate())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(getSubscriber(pullToRefresh));
+                .flatMap(wishes -> Observable.from(wishes.getWishes()))
+                .filter(wish -> !existingWishes.contains(wish))
+                .doOnNext(wish -> wish.setFormatedDate(getFormatedDate(wish)))
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getSubscriber(pullToRefresh));
 
         subscriptions.add(subscription);
     }
@@ -63,10 +63,12 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
         }
 
         Subscription subscription = loadMoreWishesObservable(String.valueOf(loadedCount))
-                    .map(initFormatedDate())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(getSubscriber(false));
+                .flatMap(wishes -> Observable.from(wishes.getWishes()))
+                .doOnNext(wish -> wish.setFormatedDate(getFormatedDate(wish)))
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getSubscriber(false));
 
         subscriptions.add(subscription);
     }
@@ -90,40 +92,13 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
         }
     }
 
-    private Func1<Wishes, Wishes> removeDuplicateAndSortWishes(final List<Wish> existingWishes){
-        return new Func1<Wishes, Wishes>() {
-            @Override
-            public Wishes call(Wishes wishes) {
-                List<Wish> filtered = new ArrayList<>();
-
-                for(Wish w : wishes.getWishes()){
-                    if(!existingWishes.contains(w)) {
-                        filtered.add(w);
-                    }
-                }
-
-                wishes.setWishes(filtered);
-
-                return wishes;
-            }
-        };
+    private String getFormatedDate(Wish wish){
+        return new DateFormater(wish.getCreatedDate()).getFormatedDate();
     }
 
-    private Func1<Wishes, Wishes> initFormatedDate(){
-        return new Func1<Wishes, Wishes>() {
-            @Override
-            public Wishes call(Wishes wishes) {
-                for(Wish w : wishes.getWishes()){
-                    w.setFormatedDate(new DateFormater(w.getCreatedDate()).getFormatedDate());
-                }
 
-                return wishes;
-            }
-        };
-    }
-
-    private Subscriber<Wishes> getSubscriber(final boolean pullToRefresh){
-        return new Subscriber<Wishes>() {
+    private Subscriber<List<Wish>> getSubscriber(final boolean pullToRefresh){
+        return new Subscriber<List<Wish>>() {
             @Override
             public void onCompleted() {
 
@@ -137,9 +112,9 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
             }
 
             @Override
-            public void onNext(Wishes wishes) {
+            public void onNext(List<Wish> wishs) {
                 if (isViewAttached()){
-                    getView().setData(wishes.getWishes(), pullToRefresh);
+                    getView().setData(wishs, pullToRefresh);
                     getView().showContent();
                 }
             }

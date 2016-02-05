@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 repositories {
     maven { url "https://jitpack.io" }
@@ -11,6 +12,11 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.tlab.wish"
         minSdkVersion 15
@@ -18,6 +24,7 @@ android {
         versionCode 1
         versionName "1.0.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
