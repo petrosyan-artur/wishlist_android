@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.tlab.wish.App;
 import com.tlab.wish.R;
+import com.tlab.wish.authentication.AuthActivity;
+import com.tlab.wish.authentication.AuthSuccessEvent;
 import com.tlab.wish.main_view_staff.slidingTabs.SlidingTabLayout;
 import com.tlab.wish.main_view_staff.slidingTabs.ViewPagerAdapter;
 import com.tlab.wish.new_wish.NewWishActivity;
@@ -116,6 +118,9 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == NewWishActivity.REQUEST_CODE && resultCode == RESULT_OK){
             EventBus.getDefault().postSticky(new WishSentEvent());
+            return;
+        } else if(requestCode == AuthActivity.AUTH_REQUET_CODE && resultCode == RESULT_OK){
+            EventBus.getDefault().postSticky(new AuthSuccessEvent());
             return;
         }
         super.onActivityResult(requestCode, resultCode, data);

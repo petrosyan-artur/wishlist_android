@@ -127,35 +127,26 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
         public void render(final Wish wish, final WishItemClickListener listener){
             try {
                 username.setText(wish.getUsername());
-                username.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (listener != null) {
-                            listener.onWishUserNameClicked(wish);
-                        }
+                username.setOnClickListener(v -> {
+                    if (listener != null) {
+                        listener.onWishUserNameClicked(wish);
                     }
                 });
 
                 date.setText(wish.getFormatedDate());
                 text.setText(wish.getContent());
                 likes.setText(String.valueOf(wish.getLikes()));
-                likeBtn.setEnabled(wish.isLiked());
-                likeBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (listener != null) {
-                            listener.onWishLikeClicked(wish);
-                        }
+                likeBtn.setSelected(wish.isLiked());
+                likeBtn.setOnClickListener(v -> {
+                    if (listener != null) {
+                        listener.onWishLikeClicked(wish);
                     }
                 });
 
                 cardView.setCardBackgroundColor(DecorationUtils.getColor(wish.getDecoration().getColor()));
-                cardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (listener != null){
-                            listener.onWishItemClicked(wish);
-                        }
+                cardView.setOnClickListener(v -> {
+                    if (listener != null){
+                        listener.onWishItemClicked(wish);
                     }
                 });
             } catch (Exception e){

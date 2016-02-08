@@ -8,7 +8,6 @@ import com.tlab.wish.utils.Serialiser;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -50,12 +49,7 @@ public class ConfigurationManager {
         final Subscription subscription = observable
                 .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
-                .filter(new Func1<Configuration, Boolean>() {
-                    @Override
-                    public Boolean call(Configuration configuration) {
-                        return configuration.isSuccess();
-                    }
-                })
+                .filter(Configuration::isSuccess)
                 .subscribe(new Subscriber<Configuration>() {
                     @Override
                     public void onCompleted() {

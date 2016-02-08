@@ -1,18 +1,23 @@
 package com.tlab.wish.main_view_staff.wish_list_base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceFragment;
 import com.tlab.wish.App;
 import com.tlab.wish.CustomTypeFace;
 import com.tlab.wish.R;
+import com.tlab.wish.authentication.AuthActivity;
+import com.tlab.wish.authentication.AuthSuccessEvent;
 import com.tlab.wish.main_view_staff.FragmentInteractionListener;
+import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.utils.MyRecyclerOnScrollListener;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.WishSentEvent;
@@ -81,6 +86,10 @@ public abstract class WishListBaseFragment
         EventBus.getDefault().removeStickyEvent(event);
     }
 
+    public void onEvent(AuthSuccessEvent event){
+        initViews();
+    }
+
     @Override
     public void initViews() {
         authErrorView.setVisibility(View.GONE);
@@ -116,14 +125,31 @@ public abstract class WishListBaseFragment
     }
 
     @OnClick(R.id.errorView)
-    public void onErroeViewClick(){
+    public void onErrorViewClick(){
         adapter.resetData();
         loadData(false);
     }
 
     @OnClick(R.id.authErrorBtn)
     public void onAuthErrorBtnClick(){
+        openAuthActivity();
+    }
 
+    @Override
+    public void openAuthActivity() {
+        getActivity().startActivityForResult
+                (new Intent(getActivity(), AuthActivity.class),
+                        AuthActivity.AUTH_REQUET_CODE);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showLikeError() {
+        Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -188,18 +214,23 @@ public abstract class WishListBaseFragment
     }
 
     @Override
-    public void onWishItemClicked(Wish wish) {
+    public void showOfflineError() {
+        DialogUtils.showOfflineDialog(getActivity());
+    }
 
+    @Override
+    public void onWishItemClicked(Wish wish) {
+        presenter.onWishItemClicked(wish);
     }
 
     @Override
     public void onWishLikeClicked(Wish wish) {
-
+        presenter.onWishLikeClicked(wish);
     }
 
     @Override
     public void onWishUserNameClicked(Wish wish) {
-
+        presenter.onWishUserNameClicked(wish);
     }
 
     @Override

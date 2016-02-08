@@ -3,7 +3,11 @@ package com.tlab.wish.main_view_staff.wish_list_base;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.tlab.wish.App;
 import com.tlab.wish.R;
+import com.tlab.wish.api_staff.GeneralResponse;
+import com.tlab.wish.api_staff.WishesAPI;
+import com.tlab.wish.main_view_staff.likes.LikeRequestObj;
 import com.tlab.wish.utils.AppOfflineException;
+import com.tlab.wish.utils.ExceptionTracker;
 import com.tlab.wish.wishes.DateFormater;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
@@ -42,6 +46,7 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
 
         Subscription subscription = getWishesObservable()
                 .flatMap(wishes -> Observable.from(wishes.getWishes()))
+                .doOnNext(wish -> syncLiks(existingWishes, wish))
                 .filter(wish -> !existingWishes.contains(wish))
                 .doOnNext(wish -> wish.setFormatedDate(getFormatedDate(wish)))
                 .toList()
@@ -51,7 +56,6 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
 
         subscriptions.add(subscription);
     }
-
 
     public void loadMoreWishes(int currentPage, int loadedCount){
         if(!App.getInstance().isOnline()){
@@ -73,6 +77,66 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
         subscriptions.add(subscription);
     }
 
+    public void likeWish(Wish wish){
+        wish.setLiked(true);
+        wish.setLikes(wish.getLikes() + 1);
+        if(isViewAttached()){getView().notifyDataSetChanged();}
+
+        Subscription subscription = WishesAPI.getInstanse().likeWish(LikeRequestObj.fromWish(wish))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getLikeSubscriber(wish));
+
+        subscriptions.add(subscription);
+    }
+
+    public void unlikeWish(Wish wish){
+        wish.setLiked(false);
+        wish.setLikes(wish.getLikes() - 1);
+        if(isViewAttached()){getView().notifyDataSetChanged();}
+
+        Subscription subscription = WishesAPI.getInstanse().unlikeWish(wish.getUserId(), wish.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getLikeSubscriber(wish));
+
+        subscriptions.add(subscription);
+    }
+
+
+    public void onWishItemClicked(Wish wish){
+
+    }
+
+    public void onWishLikeClicked(Wish wish){
+        if(!App.getInstance().isOnline()){
+            if(isViewAttached()){ getView().showOfflineError(); }
+            return;
+        }
+
+        if(!App.getInstance().getPrefs().isAuthenticated() ){
+            if(isViewAttached()){ getView().openAuthActivity(); }
+            return;
+        }
+
+        if(wish.isLiked()){
+            unlikeWish(wish);
+        } else {
+            likeWish(wish);
+        }
+    }
+
+    public void onWishUserNameClicked(Wish wish){
+
+    }
+
+    private void syncLiks(List<Wish> existingWishes, Wish wish){
+        if(existingWishes.contains(wish)){
+            Wish existingWish = existingWishes.get(existingWishes.indexOf(wish));
+            existingWish.setLikes(wish.getLikes());
+            existingWish.setLiked(wish.isLiked());
+        }
+    }
 
     public String getErrorMessage(Throwable e, boolean pullToRefresh) {
         String message = App.getInstance().getString(R.string.something_went_wrong);
@@ -96,16 +160,46 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
         return new DateFormater(wish.getCreatedDate()).getFormatedDate();
     }
 
+    private Subscriber<GeneralResponse> getLikeSubscriber(final Wish wish){
+        return new Subscriber<GeneralResponse>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ExceptionTracker.trackException(e);
+            }
+
+            @Override
+            public void onNext(GeneralResponse generalResponse) {
+                if (!generalResponse.isSuccess()){
+                    if(isViewAttached()){getView().showLikeError();}
+                    rollBackWishLike(wish);
+                }
+            }
+        };
+    }
+
+    private void rollBackWishLike(Wish wish){
+        if(wish.isLiked()){
+            wish.setLiked(false);
+            wish.setLikes(wish.getLikes() - 1);
+        } else {
+            wish.setLiked(true);
+            wish.setLikes(wish.getLikes() + 1);
+        }
+    }
 
     private Subscriber<List<Wish>> getSubscriber(final boolean pullToRefresh){
         return new Subscriber<List<Wish>>() {
             @Override
             public void onCompleted() {
-
             }
 
             @Override
             public void onError(Throwable e) {
+                ExceptionTracker.trackException(e);
                 if (isViewAttached()){
                     getView().showError(e, pullToRefresh);
                 }
@@ -121,8 +215,8 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
         };
     }
 
-
     public abstract Observable<Wishes> getWishesObservable();
 
     public abstract Observable<Wishes> loadMoreWishesObservable(String loadedCount);
+
 }

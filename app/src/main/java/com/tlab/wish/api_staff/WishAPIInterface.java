@@ -5,15 +5,18 @@ import com.tlab.wish.authentication.AuthResponse;
 import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
 import com.tlab.wish.configs.Configuration;
+import com.tlab.wish.main_view_staff.likes.LikeRequestObj;
 import com.tlab.wish.new_wish.WishResponse;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -61,4 +64,10 @@ public interface WishAPIInterface {
 
     @PUT("private/users")
     Observable<ResponseBody> updateUserInfo();
+
+    @POST("private/rates")
+    Observable<GeneralResponse> likeWish(@Body LikeRequestObj likeRequestObj);
+
+    @DELETE("private/rates/{userId}/{wishId}")
+    Observable<GeneralResponse> unlikeWish(@Path("userId") String userId, @Path("wishId") String wishId);
 }

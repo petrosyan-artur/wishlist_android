@@ -68,6 +68,7 @@ public class AuthPresenter extends MvpBasePresenter<AuthView>{
         if(authResponse.isSuccess()){
             App.getInstance().getPrefs().setToken(authResponse.getToken());
             App.getInstance().getPrefs().setUsername(username);
+            App.getInstance().getPrefs().setUserId(authResponse.getUserId());
             getView().onLoginSuccess();
         } else {
             getView().hideLoading();

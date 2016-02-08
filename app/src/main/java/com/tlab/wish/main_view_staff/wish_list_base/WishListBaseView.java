@@ -17,4 +17,12 @@ public interface WishListBaseView extends MvpLceView<List<Wish>> {
     void showLoadMoreLoading();
 
     void showAuthError();
+
+    void showOfflineError();
+
+    void openAuthActivity();
+
+    void notifyDataSetChanged();
+
+    void showLikeError();
 }

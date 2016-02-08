@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tlab.wish.App;
+import com.tlab.wish.R;
 import com.tlab.wish.api_staff.WishesAPI;
 import com.tlab.wish.configs.ConfigurationManager;
 import com.tlab.wish.new_wish.decorations.ColorDecorItem;
@@ -111,7 +112,7 @@ public class WishHelper {
                 int maxChars = ConfigurationManager.getInstanse().getConfigs().getMaxSymbols();
 
                 if(s.length() > maxChars){
-                    Toast.makeText(App.getInstance(), "No more characters allowed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(App.getInstance(), R.string.no_more_characters_allowed, Toast.LENGTH_SHORT).show();
 
                     editText.setText(s.toString().substring(0, maxChars));
                     editText.setSelection(editText.length());
