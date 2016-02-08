@@ -46,7 +46,7 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
 
         Subscription subscription = getWishesObservable()
                 .flatMap(wishes -> Observable.from(wishes.getWishes()))
-                .doOnNext(wish -> syncLiks(existingWishes, wish))
+                .doOnNext(wish -> updateExisting(existingWishes, wish))
                 .filter(wish -> !existingWishes.contains(wish))
                 .doOnNext(wish -> wish.setFormatedDate(getFormatedDate(wish)))
                 .toList()
@@ -107,7 +107,7 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
 
 
     public void onWishItemClicked(Wish wish){
-
+        // shuld be overriden in MyWishesPresenter
     }
 
     public void onWishLikeClicked(Wish wish){
@@ -132,11 +132,9 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
 
     }
 
-    private void syncLiks(List<Wish> existingWishes, Wish wish){
+    private void updateExisting(List<Wish> existingWishes, Wish wish){
         if(existingWishes.contains(wish)){
-            Wish existingWish = existingWishes.get(existingWishes.indexOf(wish));
-            existingWish.setLikes(wish.getLikes());
-            existingWish.setLiked(wish.isLiked());
+            existingWishes.set(existingWishes.indexOf(wish), wish);
         }
     }
 

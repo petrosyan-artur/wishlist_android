@@ -10,7 +10,7 @@ import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
 import com.tlab.wish.configs.Configuration;
 import com.tlab.wish.main_view_staff.likes.LikeRequestObj;
-import com.tlab.wish.new_wish.WishResponse;
+import com.tlab.wish.new_wish.WishSentResponse;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
@@ -122,17 +122,37 @@ public class WishesAPI implements WishAPIInterface{
     }
 
     @Override
-    public Observable<Wishes> loadMoreWishesAuthenticated(@Query("limit") String limit) {
+    public Observable<Wishes> loadMoreWishesAuthenticated(String limit) {
         return apiService.loadMoreWishes(limit);
     }
 
     @Override
-    public Observable<WishResponse> sendNewWish(Wish wish) {
+    public Observable<Wishes> getUserWishesAuthenticated(String userId) {
+        return apiService.getUserWishesAuthenticated(userId);
+    }
+
+    @Override
+    public Observable<Wishes> loadMoreUserWishesAuthenticated(String limit, String userId) {
+        return apiService.loadMoreUserWishesAuthenticated(limit, userId);
+    }
+
+    @Override
+    public Observable<Wishes> getUserLikedWishesAuthenticated(String userId) {
+        return apiService.getUserLikedWishesAuthenticated(userId);
+    }
+
+    @Override
+    public Observable<Wishes> loadMoreUserLikedWishesAuthenticated(String limit, String userId) {
+        return apiService.loadMoreUserLikedWishesAuthenticated(limit, userId);
+    }
+
+    @Override
+    public Observable<WishSentResponse> sendNewWish(Wish wish) {
         return apiService.sendNewWish(wish);
     }
 
     @Override
-    public Observable<WishResponse> updateWish(Wish wish) {
+    public Observable<WishSentResponse> updateWish(Wish wish) {
         return apiService.updateWish(wish);
     }
 

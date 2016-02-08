@@ -14,8 +14,8 @@ import com.tlab.wish.authentication.AuthSuccessEvent;
 import com.tlab.wish.main_view_staff.slidingTabs.SlidingTabLayout;
 import com.tlab.wish.main_view_staff.slidingTabs.ViewPagerAdapter;
 import com.tlab.wish.new_wish.NewWishActivity;
+import com.tlab.wish.new_wish.WishActivity;
 import com.tlab.wish.utils.DialogUtils;
-import com.tlab.wish.wishes.WishSentEvent;
 
 import butterknife.Bind;
 import butterknife.BindColor;
@@ -111,15 +111,12 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 
     @Override
     public void openNewWish() {
-        startActivityForResult(new Intent(this, NewWishActivity.class), NewWishActivity.REQUEST_CODE);
+        startActivityForResult(new Intent(this, NewWishActivity.class), WishActivity.REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == NewWishActivity.REQUEST_CODE && resultCode == RESULT_OK){
-            EventBus.getDefault().postSticky(new WishSentEvent());
-            return;
-        } else if(requestCode == AuthActivity.AUTH_REQUET_CODE && resultCode == RESULT_OK){
+        if(requestCode == AuthActivity.AUTH_REQUET_CODE && resultCode == RESULT_OK){
             EventBus.getDefault().postSticky(new AuthSuccessEvent());
             return;
         }

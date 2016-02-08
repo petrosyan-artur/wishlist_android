@@ -22,12 +22,16 @@ import com.tlab.wish.new_wish.decorations.DecorAdapter;
 import com.tlab.wish.new_wish.decorations.DecorItem;
 import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.utils.ViewUtils;
+import com.tlab.wish.wishes.WishSentEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 public abstract class WishActivity extends MvpActivity<WishView, WishPresenter> implements WishView, DecorAdapter.OnDecorItemClickListener{
+
+    public static final int REQUEST_CODE = 0x001;
 
     @Bind(R.id.new_wish_toolbar)
     Toolbar toolbar;
@@ -144,9 +148,9 @@ public abstract class WishActivity extends MvpActivity<WishView, WishPresenter> 
     }
 
     @Override
-    public void onWishSendSuccess() {
-        Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show();
-        setResult(RESULT_OK);
+    public void onWishSendSuccess(WishSentResponse response) {
+        Toast.makeText(this, R.string.wish_sent_toast_msg, Toast.LENGTH_SHORT).show();
+        EventBus.getDefault().postSticky(new WishSentEvent(response));
         finish();
     }
 

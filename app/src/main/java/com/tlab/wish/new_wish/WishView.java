@@ -22,7 +22,7 @@ public interface WishView extends MvpView{
 
     void showUnknownError(boolean finishActivity);
 
-    void onWishSendSuccess();
+    void onWishSendSuccess(WishSentResponse wishSentResponse);
 
     void decorateView(DecorItem item);
 }

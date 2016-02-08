@@ -82,6 +82,7 @@ public abstract class WishListBaseFragment
     }
 
     public void onEvent(WishSentEvent event){
+        adapter.updateWish(event.getResponse().getWish());
         loadData(true);
         EventBus.getDefault().removeStickyEvent(event);
     }
@@ -99,6 +100,7 @@ public abstract class WishListBaseFragment
 
         errorView.setTypeface(App.getInstance().getTypeface(CustomTypeFace.MyTypeFace.ROBOTO_ITALIC));
 
+        contentView.setVisibility(View.VISIBLE);
         recyclerView.setHasFixedSize(true);
         adapter = new WishesAdapter(this);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
@@ -203,6 +205,8 @@ public abstract class WishListBaseFragment
 
     @Override
     public void showAuthError() {
+        contentView.setVisibility(View.GONE);
+
         authErrorTv.setTypeface(App.getInstance().getTypeface(CustomTypeFace.MyTypeFace.ROBOTO_ITALIC));
         authErrorView.setVisibility(View.VISIBLE);
     }

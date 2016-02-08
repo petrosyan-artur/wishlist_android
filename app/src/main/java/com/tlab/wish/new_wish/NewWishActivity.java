@@ -10,8 +10,6 @@ import butterknife.OnClick;
 
 public class NewWishActivity extends WishActivity {
 
-    public static final int REQUEST_CODE = 0x001;
-
     @OnClick(R.id.new_wish_send)
     public void onWishSendClick(){
         if(!App.getInstance().isOnline()){

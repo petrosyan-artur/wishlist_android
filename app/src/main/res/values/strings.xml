@@ -23,4 +23,5 @@
     <string name="auth_error_text">You must sign in to view this content</string>
     <string name="sign_in_btn">SIGN IN</string>
     <string name="no_more_characters_allowed">No more characters allowed</string>
+    <string name="wish_sent_toast_msg">Sent</string>
 </resources>

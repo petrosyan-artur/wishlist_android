@@ -1,17 +1,16 @@
-package com.tlab.wish.main_view_staff.my_wishes;
+package com.tlab.wish.main_view_staff.likes;
 
 import com.tlab.wish.App;
 import com.tlab.wish.api_staff.WishesAPI;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBasePresenter;
-import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
 import rx.Observable;
 
 /**
- * Created by andranik on 2/4/16.
+ * Created by andranik on 2/8/16.
  */
-public class MyWishesPresenter extends WishListBasePresenter{
+public class LikesPresenter extends WishListBasePresenter{
 
     @Override
     public void onViewCreated() {
@@ -26,18 +25,12 @@ public class MyWishesPresenter extends WishListBasePresenter{
 
     @Override
     public Observable<Wishes> getWishesObservable() {
-        return WishesAPI.getInstanse().getUserWishesAuthenticated(App.getInstance().getPrefs().getUserId());
+        return WishesAPI.getInstanse().getUserLikedWishesAuthenticated(App.getInstance().getPrefs().getUserId());
     }
 
     @Override
     public Observable<Wishes> loadMoreWishesObservable(String loadedCount) {
         return WishesAPI.getInstanse()
-                .loadMoreUserWishesAuthenticated(loadedCount, App.getInstance().getPrefs().getUserId());
-    }
-
-    @Override
-    public void onWishItemClicked(Wish wish) {
-        super.onWishItemClicked(wish);
-
+                .loadMoreUserLikedWishesAuthenticated(loadedCount, App.getInstance().getPrefs().getUserId());
     }
 }

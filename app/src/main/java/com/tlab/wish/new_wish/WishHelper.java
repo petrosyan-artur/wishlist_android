@@ -30,7 +30,7 @@ public class WishHelper {
         return WishesAPI.getInstanse().updateWish(getWish(id, content, getDecoration(decorItem)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<WishResponse>() {
+                .subscribe(new Subscriber<WishSentResponse>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -42,7 +42,7 @@ public class WishHelper {
                     }
 
                     @Override
-                    public void onNext(WishResponse wishResponse) {
+                    public void onNext(WishSentResponse wishResponse) {
                         presenter.onWishSent(wishResponse);
                     }
                 });
@@ -52,7 +52,7 @@ public class WishHelper {
         return WishesAPI.getInstanse().sendNewWish(getWish(content, getDecoration()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<WishResponse>() {
+                .subscribe(new Subscriber<WishSentResponse>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -64,7 +64,7 @@ public class WishHelper {
                     }
 
                     @Override
-                    public void onNext(WishResponse wishResponse) {
+                    public void onNext(WishSentResponse wishResponse) {
                         presenter.onWishSent(wishResponse);
                     }
                 });

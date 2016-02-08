@@ -6,7 +6,7 @@ import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
 import com.tlab.wish.configs.Configuration;
 import com.tlab.wish.main_view_staff.likes.LikeRequestObj;
-import com.tlab.wish.new_wish.WishResponse;
+import com.tlab.wish.new_wish.WishSentResponse;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
@@ -47,11 +47,23 @@ public interface WishAPIInterface {
     @GET("private/wishes")
     Observable<Wishes> loadMoreWishesAuthenticated(@Query("limit") String limit);
 
+    @GET("private/wishes")
+    Observable<Wishes> getUserWishesAuthenticated(@Query("userId") String userId);
+
+    @GET("private/wishes")
+    Observable<Wishes> loadMoreUserWishesAuthenticated(@Query("limit") String limit, @Query("userId") String userId);
+
+    @GET("private/wishes?liked=1")
+    Observable<Wishes> getUserLikedWishesAuthenticated(@Query("userId") String userId);
+
+    @GET("private/wishes?liked=1")
+    Observable<Wishes> loadMoreUserLikedWishesAuthenticated(@Query("limit") String limit, @Query("userId") String userId);
+
     @POST("private/wishes")
-    Observable<WishResponse> sendNewWish(@Body Wish wish);
+    Observable<WishSentResponse> sendNewWish(@Body Wish wish);
 
     @PUT("private/wishes")
-    Observable<WishResponse> updateWish(@Body Wish wish);
+    Observable<WishSentResponse> updateWish(@Body Wish wish);
 
     @GET("users")
     Observable<AuthInfo> getAuthInfo();

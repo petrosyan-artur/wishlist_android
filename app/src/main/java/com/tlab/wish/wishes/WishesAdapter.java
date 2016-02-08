@@ -56,6 +56,13 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
         data.addAll(newData);
     }
 
+    public void updateWish(Wish wish){
+        if(data.contains(wish)) {
+            data.set(data.indexOf(wish), wish);
+            notifyDataSetChanged();
+        }
+    }
+
     public List<Wish> getData() {
         return data;
     }

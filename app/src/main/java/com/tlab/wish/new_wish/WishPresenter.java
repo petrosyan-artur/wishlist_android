@@ -52,12 +52,12 @@ public abstract class WishPresenter extends MvpBasePresenter<WishView> {
         return true;
     }
 
-    public void onWishSent(WishResponse response){
+    public void onWishSent(WishSentResponse response){
         if(!isViewAttached()){return;}
 
         if(response.isSuccess()){
             getView().hideLoading();
-            getView().onWishSendSuccess();
+            getView().onWishSendSuccess(response);
         } else {
             getView().hideLoading();
             getView().showAuthError(response.getMessage());
