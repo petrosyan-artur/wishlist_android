@@ -95,7 +95,9 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
         wish.setLikes(wish.getLikes() - 1);
         if(isViewAttached()){getView().notifyDataSetChanged();}
 
-        Subscription subscription = WishesAPI.getInstanse().unlikeWish(wish.getUserId(), wish.getId())
+        Subscription subscription = WishesAPI.getInstanse().unlikeWish(
+                            App.getInstance().getPrefs().getUserId(),
+                            wish.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getLikeSubscriber(wish));

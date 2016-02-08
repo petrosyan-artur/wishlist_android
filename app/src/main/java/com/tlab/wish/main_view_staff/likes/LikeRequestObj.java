@@ -2,6 +2,7 @@ package com.tlab.wish.main_view_staff.likes;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.tlab.wish.App;
 import com.tlab.wish.wishes.Wish;
 
 import lombok.Data;
@@ -15,7 +16,7 @@ public @Data class LikeRequestObj {
         LikeRequestObj obj = new LikeRequestObj();
 
         obj.setWishId(wish.getId());
-        obj.setUserId(wish.getUserId());
+        obj.setUserId(App.getInstance().getPrefs().getUserId());
 
         return obj;
     }
