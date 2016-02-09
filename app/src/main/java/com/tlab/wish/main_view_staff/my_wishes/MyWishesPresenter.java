@@ -38,6 +38,5 @@ public class MyWishesPresenter extends WishListBasePresenter{
     @Override
     public void onWishItemClicked(Wish wish) {
         super.onWishItemClicked(wish);
-
     }
 }

@@ -42,6 +42,7 @@ public class MyWishesFragment extends WishListBaseFragment {
         Intent intent = new Intent(getActivity(), EditWishActivity.class);
         intent.putExtra(EditWishActivity.EDIT_WISH_KEY, new EditWish(wish));
 
+
         getActivity().startActivityForResult(intent, WishActivity.REQUEST_CODE);
     }
 }

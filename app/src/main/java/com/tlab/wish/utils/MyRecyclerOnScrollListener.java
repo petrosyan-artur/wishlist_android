@@ -22,6 +22,15 @@ public abstract class MyRecyclerOnScrollListener extends RecyclerView.OnScrollLi
         this.mLinearLayoutManager = linearLayoutManager;
     }
 
+    public void reset(){
+        previousTotal = 0;
+        loading = true;
+        firstVisibleItem = 0;
+        visibleItemCount = 0;
+        totalItemCount = 0;
+        current_page = 1;
+    }
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);

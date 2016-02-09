@@ -50,6 +50,8 @@ public abstract class WishListBaseFragment
 
     FragmentInteractionListener fragmentInteractionListener;
 
+    MyRecyclerOnScrollListener myRecyclerOnScrollListener;
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -106,7 +108,8 @@ public abstract class WishListBaseFragment
         LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(new MyRecyclerOnScrollListener(llm) {
+
+        myRecyclerOnScrollListener = new MyRecyclerOnScrollListener(llm) {
             @Override
             public void onLoadMore(int current_page) {
                 presenter.loadMoreWishes(current_page, adapter.getItemCount());
@@ -121,7 +124,9 @@ public abstract class WishListBaseFragment
             public void onScrollDown() {
                 fragmentInteractionListener.onScrollDown();
             }
-        });
+        };
+
+        recyclerView.addOnScrollListener(myRecyclerOnScrollListener);
 
         loadData(false);
     }
@@ -161,6 +166,7 @@ public abstract class WishListBaseFragment
 
     @Override
     public void onRefresh() {
+        myRecyclerOnScrollListener.reset();
         loadData(true);
     }
 

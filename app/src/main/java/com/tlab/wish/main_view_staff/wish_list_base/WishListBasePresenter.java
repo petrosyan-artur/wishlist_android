@@ -46,8 +46,6 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
 
         Subscription subscription = getWishesObservable()
                 .flatMap(wishes -> Observable.from(wishes.getWishes()))
-                .doOnNext(wish -> updateExisting(existingWishes, wish))
-                .filter(wish -> !existingWishes.contains(wish))
                 .doOnNext(wish -> wish.setFormatedDate(getFormatedDate(wish)))
                 .toList()
                 .subscribeOn(Schedulers.io())
@@ -96,8 +94,8 @@ public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBas
         if(isViewAttached()){getView().notifyDataSetChanged();}
 
         Subscription subscription = WishesAPI.getInstanse().unlikeWish(
-                            App.getInstance().getPrefs().getUserId(),
-                            wish.getId())
+                App.getInstance().getPrefs().getUserId(),
+                wish.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getLikeSubscriber(wish));

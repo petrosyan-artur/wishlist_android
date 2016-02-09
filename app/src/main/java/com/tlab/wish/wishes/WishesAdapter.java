@@ -13,7 +13,6 @@ import com.karumi.headerrecyclerview.HeaderRecyclerViewAdapter;
 import com.tlab.wish.App;
 import com.tlab.wish.CustomTypeFace;
 import com.tlab.wish.R;
-import com.tlab.wish.configs.ConfigurationManager;
 import com.tlab.wish.new_wish.decorations.DecorationUtils;
 import com.tlab.wish.utils.ExceptionTracker;
 
@@ -42,12 +41,6 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
 
     public void addData(List<Wish> newData, boolean fromBegining) {
         if(fromBegining){
-            // If new data is less than limit we will add it to the tom, otherwise we will just clear
-            // all data and add new ones
-            if(newData.size() < ConfigurationManager.getInstanse().getConfigs().getWishLimit()) {
-                newData.addAll(data);
-            }
-
             data.clear();
             data.addAll(newData);
             return;
