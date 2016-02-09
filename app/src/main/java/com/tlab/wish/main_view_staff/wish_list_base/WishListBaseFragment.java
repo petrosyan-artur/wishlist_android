@@ -202,6 +202,11 @@ public abstract class WishListBaseFragment
     }
 
     @Override
+    public void removeWishFromList(Wish wish) {
+        adapter.removeWish(wish);
+    }
+
+    @Override
     public void showError(Throwable e, boolean pullToRefresh) {
         super.showError(e, pullToRefresh);
         contentView.setRefreshing(false);

@@ -130,12 +130,6 @@ public abstract class WishListBasePresenter<T extends WishListBaseView> extends 
 
     }
 
-    private void updateExisting(List<Wish> existingWishes, Wish wish){
-        if(existingWishes.contains(wish)){
-            existingWishes.set(existingWishes.indexOf(wish), wish);
-        }
-    }
-
     public String getErrorMessage(Throwable e, boolean pullToRefresh) {
         String message = App.getInstance().getString(R.string.something_went_wrong);
 

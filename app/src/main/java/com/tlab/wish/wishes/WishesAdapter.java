@@ -56,6 +56,12 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
         }
     }
 
+    public void removeWish(Wish wish){
+        if(data.remove(wish)){
+            notifyDataSetChanged();
+        }
+    }
+
     public List<Wish> getData() {
         return data;
     }
