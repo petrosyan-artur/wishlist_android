@@ -10,7 +10,7 @@ import rx.Observable;
 /**
  * Created by andranik on 2/3/16.
  */
-public class HomeFrPresenter extends WishListBasePresenter{
+public class HomeFrPresenter extends WishListBasePresenter<HomeFrView>{
 
     @Override
     public void onViewCreated() {

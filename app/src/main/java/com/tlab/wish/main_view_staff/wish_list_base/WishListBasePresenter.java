@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by andranik on 2/4/16.
  */
-public abstract class WishListBasePresenter extends MvpBasePresenter<WishListBaseView> {
+public abstract class WishListBasePresenter<T extends WishListBaseView> extends MvpBasePresenter<T> {
 
     private Set<Subscription> subscriptions = new HashSet<>();
 

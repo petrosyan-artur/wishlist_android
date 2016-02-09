@@ -34,7 +34,7 @@ import de.greenrobot.event.EventBus;
  * Created by andranik on 2/4/16.
  */
 public abstract class WishListBaseFragment
-        extends MvpLceFragment<SwipeRefreshLayout, List<Wish>, WishListBaseView, WishListBasePresenter>
+        extends MvpLceFragment<SwipeRefreshLayout, List<Wish>, WishListBaseView, WishListBasePresenter<WishListBaseView>>
         implements WishListBaseView, SwipeRefreshLayout.OnRefreshListener, WishesAdapter.WishItemClickListener{
 
     @Bind(R.id.authErrorView)

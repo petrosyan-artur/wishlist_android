@@ -25,4 +25,8 @@ public @Data class Configs implements Serializable{
     @Expose
     public int wishLimit = 12; // Default value
 
+    @SerializedName("messages")
+    @Expose
+    public Messages messages;
+
 }

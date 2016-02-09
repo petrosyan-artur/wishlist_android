@@ -11,7 +11,8 @@ import rx.Observable;
 /**
  * Created by andranik on 2/4/16.
  */
-public class MyWishesPresenter extends WishListBasePresenter{
+public class MyWishesPresenter extends WishListBasePresenter<MyWishesView>{
+
 
     @Override
     public void onViewCreated() {
@@ -37,6 +38,16 @@ public class MyWishesPresenter extends WishListBasePresenter{
 
     @Override
     public void onWishItemClicked(Wish wish) {
-        super.onWishItemClicked(wish);
+        if(!App.getInstance().isOnline()){
+            if(isViewAttached()){ getView().showOfflineError(); }
+            return;
+        }
+
+        if(wish.getLikes() > 0){
+            if(isViewAttached()){getView().showEditError();}
+            return;
+        }
+
+        if(isViewAttached()){getView().openEditWish(wish);}
     }
 }

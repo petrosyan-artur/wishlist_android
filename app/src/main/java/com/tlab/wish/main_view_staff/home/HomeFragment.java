@@ -10,7 +10,7 @@ import com.tlab.wish.R;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBaseFragment;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBasePresenter;
 
-public class HomeFragment extends WishListBaseFragment{
+public class HomeFragment extends WishListBaseFragment implements HomeFrView{
 
     public HomeFragment() {
         super();

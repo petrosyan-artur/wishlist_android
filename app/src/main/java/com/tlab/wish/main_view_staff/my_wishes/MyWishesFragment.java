@@ -8,14 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tlab.wish.R;
+import com.tlab.wish.configs.ConfigurationManager;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBaseFragment;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBasePresenter;
 import com.tlab.wish.new_wish.EditWish;
 import com.tlab.wish.new_wish.EditWishActivity;
 import com.tlab.wish.new_wish.WishActivity;
+import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.wishes.Wish;
 
-public class MyWishesFragment extends WishListBaseFragment {
+public class MyWishesFragment extends WishListBaseFragment implements MyWishesView{
 
     public MyWishesFragment() {
         // Required empty public constructor
@@ -38,11 +40,20 @@ public class MyWishesFragment extends WishListBaseFragment {
 
     @Override
     public void onWishItemClicked(Wish wish) {
-        super.onWishItemClicked(wish);
+        presenter.onWishItemClicked(wish);
+    }
+
+    @Override
+    public void openEditWish(Wish wish) {
         Intent intent = new Intent(getActivity(), EditWishActivity.class);
         intent.putExtra(EditWishActivity.EDIT_WISH_KEY, new EditWish(wish));
 
-
         getActivity().startActivityForResult(intent, WishActivity.REQUEST_CODE);
+    }
+
+    @Override
+    public void showEditError() {
+        DialogUtils.showAlertDialog(getActivity(), ConfigurationManager.getInstanse()
+                .getConfigs().getMessages().getWishEditAlert());
     }
 }
