@@ -169,6 +169,12 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
                         listener.onWishItemClicked(wish);
                     }
                 });
+                cardView.setOnLongClickListener(v -> {
+                    if(listener != null){
+                        listener.onWishItemLongClicked(wish);
+                    }
+                    return true;
+                });
             } catch (Exception e){
                 ExceptionTracker.trackException(e);
             }
@@ -197,5 +203,6 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
         void onWishItemClicked(Wish wish);
         void onWishLikeClicked(Wish wish);
         void onWishUserNameClicked(Wish wish);
+        void onWishItemLongClicked(Wish wish);
     }
 }

@@ -3,6 +3,7 @@ package com.tlab.wish.main_view_staff.home;
 import com.tlab.wish.App;
 import com.tlab.wish.api_staff.WishesAPI;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBasePresenter;
+import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
 
 import rx.Observable;
@@ -21,6 +22,14 @@ public class HomeFrPresenter extends WishListBasePresenter<HomeFrView>{
         if(isViewAttached()){
             getView().initViews();
         }
+    }
+
+    @Override
+    public void onWishItemClicked(Wish wish) {
+    }
+
+    @Override
+    public void onWishItemLongClicked(Wish wish) {
     }
 
     @Override

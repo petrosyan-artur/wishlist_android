@@ -21,6 +21,7 @@ import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.utils.MyRecyclerOnScrollListener;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.WishesAdapter;
+import com.tlab.wish.wishes.events.WishDeletedEvent;
 import com.tlab.wish.wishes.events.WishLikedEvent;
 import com.tlab.wish.wishes.events.WishSentEvent;
 
@@ -107,6 +108,10 @@ public abstract class WishListBaseFragment
 
     public abstract void onEvent(WishLikedEvent event);
 
+    public void onEvent(WishDeletedEvent event){
+        adapter.removeWish(event.getWish());
+    }
+
     public void onEvent(AuthSuccessEvent event){
         initViews();
     }
@@ -177,8 +182,13 @@ public abstract class WishListBaseFragment
     }
 
     @Override
-    public void showLikeError() {
-        Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+    public void showToastMessage(int messageId) {
+        showToastMessage(getString(messageId));
+    }
+
+    @Override
+    public void showToastMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -230,11 +240,6 @@ public abstract class WishListBaseFragment
     }
 
     @Override
-    public void removeWishFromList(Wish wish) {
-        adapter.removeWish(wish);
-    }
-
-    @Override
     public void showError(Throwable e, boolean pullToRefresh) {
         super.showError(e, pullToRefresh);
         contentView.setRefreshing(false);
@@ -274,6 +279,11 @@ public abstract class WishListBaseFragment
     @Override
     public void onWishUserNameClicked(Wish wish) {
         presenter.onWishUserNameClicked(wish);
+    }
+
+    @Override
+    public void onWishItemLongClicked(Wish wish) {
+        presenter.onWishItemLongClicked(wish);
     }
 
     @Override

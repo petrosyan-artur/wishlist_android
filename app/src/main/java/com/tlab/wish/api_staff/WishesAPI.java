@@ -190,4 +190,9 @@ public class WishesAPI implements WishAPIInterface{
     public Observable<GeneralResponse> unlikeWish(String userId, String wishId) {
         return apiService.unlikeWish(userId, wishId);
     }
+
+    @Override
+    public Observable<GeneralResponse> removeWish(String wishId, String username) {
+        return apiService.removeWish(wishId, username);
+    }
 }

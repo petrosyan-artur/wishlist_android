@@ -24,7 +24,8 @@ public interface WishListBaseView extends MvpLceView<List<Wish>> {
 
     void notifyDataSetChanged();
 
-    void showLikeError();
+    void showToastMessage(String message);
 
-    void removeWishFromList(Wish wish);
+    void showToastMessage(int messageId);
+
 }

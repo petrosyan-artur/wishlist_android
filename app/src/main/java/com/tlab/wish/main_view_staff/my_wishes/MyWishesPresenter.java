@@ -49,4 +49,14 @@ public class MyWishesPresenter extends WishListBasePresenter<MyWishesView>{
 
         if(isViewAttached()){getView().openEditWish(wish);}
     }
+
+    @Override
+    public void onWishItemLongClicked(Wish wish) {
+        if(App.getInstance().isOnline()){
+            if (isViewAttached()) {getView().showDeleteWishDialog(wish);}
+        } else {
+            if (isViewAttached()) {getView().showOfflineError();}
+        }
+    }
+
 }

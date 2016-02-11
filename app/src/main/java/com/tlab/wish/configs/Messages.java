@@ -16,4 +16,8 @@ public @Data class Messages implements Serializable{
     @SerializedName("wish_edit_alert")
     @Expose
     public String wishEditAlert;
+
+    @SerializedName("wish_delete_alert")
+    @Expose
+    public String wishDeleteAlert;
 }

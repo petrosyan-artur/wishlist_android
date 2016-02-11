@@ -46,6 +46,16 @@ public class DialogUtils {
                 null);
     }
 
+    public static AlertDialog showAlertDialog(Activity activity, String msg, int posBtnTextId, int negBtnTextId, DialogInterface.OnClickListener posBtnClickListener){
+        return showAlertDialog(activity,
+                null,
+                msg,
+                activity.getString(posBtnTextId),
+                activity.getString(negBtnTextId),
+                posBtnClickListener,
+                null);
+    }
+
     public static AlertDialog showAlertDialog(Activity activity, int msgId, DialogInterface.OnClickListener posBtnClickListener){
         return showAlertDialog(activity,
                 null,

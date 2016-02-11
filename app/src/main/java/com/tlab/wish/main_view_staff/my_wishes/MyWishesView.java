@@ -11,4 +11,6 @@ public interface MyWishesView extends WishListBaseView{
     void openEditWish(Wish wish);
 
     void showEditError();
+
+    void showDeleteWishDialog(Wish wish);
 }

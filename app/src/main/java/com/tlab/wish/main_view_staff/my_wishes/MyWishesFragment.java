@@ -78,4 +78,13 @@ public class MyWishesFragment extends WishListBaseFragment implements MyWishesVi
         DialogUtils.showAlertDialog(getActivity(), ConfigurationManager.getInstanse()
                 .getConfigs().getMessages().getWishEditAlert());
     }
+
+    @Override
+    public void showDeleteWishDialog(Wish wish) {
+        DialogUtils.showAlertDialog(getActivity(),
+                ConfigurationManager.getInstanse().getConfigs().getMessages().getWishDeleteAlert(),
+                R.string.dialog_delete,
+                R.string.dialog_cancel,
+                (dialog, which) -> presenter.deleteWish(wish));
+    }
 }

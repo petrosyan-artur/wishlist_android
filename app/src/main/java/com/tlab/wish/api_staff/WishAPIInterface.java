@@ -86,4 +86,7 @@ public interface WishAPIInterface {
 
     @DELETE("private/rates/{userId}/{wishId}")
     Observable<GeneralResponse> unlikeWish(@Path("userId") String userId, @Path("wishId") String wishId);
+
+    @DELETE("private/wishes/{wishId}")
+    Observable<GeneralResponse> removeWish(@Path("wishId") String wishId, @Query("username") String username);
 }
