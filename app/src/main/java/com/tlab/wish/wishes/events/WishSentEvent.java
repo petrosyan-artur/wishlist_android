@@ -1,4 +1,4 @@
-package com.tlab.wish.wishes;
+package com.tlab.wish.wishes.events;
 
 import com.tlab.wish.new_wish.WishSentResponse;
 

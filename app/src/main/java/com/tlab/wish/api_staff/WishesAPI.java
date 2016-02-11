@@ -9,8 +9,8 @@ import com.tlab.wish.authentication.AuthResponse;
 import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
 import com.tlab.wish.configs.Configuration;
-import com.tlab.wish.main_view_staff.wish_list_base.HasNewWishResponse;
 import com.tlab.wish.main_view_staff.likes.LikeRequestObj;
+import com.tlab.wish.main_view_staff.wish_list_base.HasNewWishResponse;
 import com.tlab.wish.new_wish.WishSentResponse;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
@@ -26,7 +26,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.RxJavaCallAdapterFactory;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -108,7 +107,7 @@ public class WishesAPI implements WishAPIInterface{
     }
 
     @Override
-    public Observable<Wishes> loadMoreWishes(@Query("limit") String limit) {
+    public Observable<Wishes> loadMoreWishes(String limit) {
         return apiService.loadMoreWishes(limit);
     }
 
@@ -124,7 +123,7 @@ public class WishesAPI implements WishAPIInterface{
 
     @Override
     public Observable<Wishes> loadMoreWishesAuthenticated(String limit) {
-        return apiService.loadMoreWishes(limit);
+        return apiService.loadMoreWishesAuthenticated(limit);
     }
 
     @Override

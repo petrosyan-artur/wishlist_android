@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import com.tlab.wish.R;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBaseFragment;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBasePresenter;
+import com.tlab.wish.wishes.Wish;
+import com.tlab.wish.wishes.events.WishLikedEvent;
+import com.tlab.wish.wishes.events.WishSentEvent;
 
 public class LikesFragment extends WishListBaseFragment implements LikesView{
 
@@ -31,4 +34,19 @@ public class LikesFragment extends WishListBaseFragment implements LikesView{
         return new LikesPresenter();
     }
 
+    @Override
+    public void onEvent(WishSentEvent event) {
+        // Don't need to do anything here
+    }
+
+    @Override
+    public void onEvent(WishLikedEvent event) {
+        final Wish wish = event.getWish();
+
+        if(wish.isLiked()){
+            adapter.addAWish(wish);
+        } else {
+            adapter.removeWish(wish);
+        }
+    }
 }

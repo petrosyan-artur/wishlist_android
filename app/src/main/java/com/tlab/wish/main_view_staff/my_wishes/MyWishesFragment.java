@@ -16,6 +16,10 @@ import com.tlab.wish.new_wish.EditWishActivity;
 import com.tlab.wish.new_wish.WishActivity;
 import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.wishes.Wish;
+import com.tlab.wish.wishes.events.WishLikedEvent;
+import com.tlab.wish.wishes.events.WishSentEvent;
+
+import java.util.List;
 
 public class MyWishesFragment extends WishListBaseFragment implements MyWishesView{
 
@@ -36,6 +40,24 @@ public class MyWishesFragment extends WishListBaseFragment implements MyWishesVi
     @Override
     public WishListBasePresenter createPresenter() {
         return new MyWishesPresenter();
+    }
+
+    @Override
+    public void onEvent(WishSentEvent event) {
+        onRefresh();
+    }
+
+    @Override
+    public void onEvent(WishLikedEvent event) {
+        final List<Wish> wishes = adapter.getData();
+        final Wish wish = event.getWish();
+
+        if(!wishes.contains(wish)){return;}
+
+        final Wish oldWish = wishes.get(wishes.indexOf(wish));
+        oldWish.setLiked(wish.isLiked());
+        oldWish.setLikes(wish.getLikes());
+        notifyDataSetChanged();
     }
 
     @Override

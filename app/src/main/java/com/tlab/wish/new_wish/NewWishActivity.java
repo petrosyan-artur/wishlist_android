@@ -17,7 +17,7 @@ public class NewWishActivity extends WishActivity {
             return;
         }
 
-        presenter.sendWish(null, newWishEt.getText().toString());
+        presenter.sendWish(null, newWishEt.getText().toString().trim());
     }
 
     @NonNull

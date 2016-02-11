@@ -11,11 +11,13 @@ import com.tlab.wish.utils.ExceptionTracker;
 import com.tlab.wish.wishes.DateFormater;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.Wishes;
+import com.tlab.wish.wishes.events.WishLikedEvent;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.greenrobot.event.EventBus;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -168,6 +170,8 @@ public abstract class WishListBasePresenter<T extends WishListBaseView> extends 
                     if(isViewAttached()){getView().showLikeError();}
                     rollBackWishLike(wish);
                 }
+
+                EventBus.getDefault().post(new WishLikedEvent(wish));
             }
         };
     }

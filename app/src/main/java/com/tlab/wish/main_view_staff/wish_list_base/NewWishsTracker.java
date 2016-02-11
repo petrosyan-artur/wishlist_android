@@ -1,18 +1,14 @@
 package com.tlab.wish.main_view_staff.wish_list_base;
 
-import android.util.Log;
-
 import com.tlab.wish.App;
 import com.tlab.wish.api_staff.WishesAPI;
 import com.tlab.wish.configs.ConfigurationManager;
-import com.tlab.wish.utils.ExceptionTracker;
 import com.tlab.wish.wishes.Wish;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -45,24 +41,23 @@ public class NewWishsTracker {
         this.listener = listener;
         this.wishs = wishs;
 
-        subscription = observable.subscribe(new Subscriber<HasNewWishResponse>() {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                ExceptionTracker.trackException(e);
-            }
-
-            @Override
-            public void onNext(HasNewWishResponse response) {
-                Log.d("testt", "onNext - " + response.toString());
-                if (listener != null && response.isHasNew()) {
-                    listener.onHasNewWishes(response);
-                }
-            }
-        });
+//        subscription = observable.subscribe(new Subscriber<HasNewWishResponse>() {
+//            @Override
+//            public void onCompleted() {
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                ExceptionTracker.trackException(e);
+//            }
+//
+//            @Override
+//            public void onNext(HasNewWishResponse response) {
+//                if (listener != null && response.isHasNew()) {
+//                    listener.onHasNewWishes(response);
+//                }
+//            }
+//        });
 
 
     }

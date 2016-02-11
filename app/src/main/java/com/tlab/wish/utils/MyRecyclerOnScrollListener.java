@@ -31,6 +31,16 @@ public abstract class MyRecyclerOnScrollListener extends RecyclerView.OnScrollLi
         current_page = 1;
     }
 
+    public void onItemAdded(){
+        previousTotal++;
+        totalItemCount++;
+    }
+
+    public void onItemDeleted(){
+        previousTotal--;
+        totalItemCount--;
+    }
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);

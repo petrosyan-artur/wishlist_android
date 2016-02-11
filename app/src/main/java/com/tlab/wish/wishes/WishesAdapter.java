@@ -15,8 +15,10 @@ import com.tlab.wish.CustomTypeFace;
 import com.tlab.wish.R;
 import com.tlab.wish.new_wish.decorations.DecorationUtils;
 import com.tlab.wish.utils.ExceptionTracker;
+import com.tlab.wish.utils.MyRecyclerOnScrollListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -33,10 +35,12 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
 
     private List<Wish> data;
     private WishItemClickListener listener;
+    private MyRecyclerOnScrollListener scrollListener;
 
-    public WishesAdapter(WishItemClickListener listener) {
+    public WishesAdapter(WishItemClickListener listener, MyRecyclerOnScrollListener scrollListener) {
         this.data = new ArrayList<>();
         this.listener = listener;
+        this.scrollListener = scrollListener;
     }
 
     public void addData(List<Wish> newData, boolean fromBegining) {
@@ -56,8 +60,18 @@ public class WishesAdapter extends HeaderRecyclerViewAdapter<
         }
     }
 
+    public void addAWish(Wish wish){
+        if(!data.contains(wish)) {
+            data.add(wish);
+            scrollListener.onItemAdded();
+            Collections.sort(data);
+            notifyDataSetChanged();
+        }
+    }
+
     public void removeWish(Wish wish){
         if(data.remove(wish)){
+            scrollListener.onItemDeleted();
             notifyDataSetChanged();
         }
     }

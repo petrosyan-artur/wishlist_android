@@ -20,8 +20,9 @@ import com.tlab.wish.main_view_staff.FragmentInteractionListener;
 import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.utils.MyRecyclerOnScrollListener;
 import com.tlab.wish.wishes.Wish;
-import com.tlab.wish.wishes.WishSentEvent;
 import com.tlab.wish.wishes.WishesAdapter;
+import com.tlab.wish.wishes.events.WishLikedEvent;
+import com.tlab.wish.wishes.events.WishSentEvent;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public abstract class WishListBaseFragment
     @Bind(R.id.has_new_wishes)
     TextView hasNewWishesTv;
 
-    WishesAdapter adapter;
+    protected WishesAdapter adapter;
 
     FragmentInteractionListener fragmentInteractionListener;
 
@@ -62,6 +63,8 @@ public abstract class WishListBaseFragment
         ButterKnife.bind(this, view);
 
         presenter.onViewCreated();
+
+        EventBus.getDefault().registerSticky(this);
     }
 
     @Override
@@ -76,23 +79,33 @@ public abstract class WishListBaseFragment
     }
 
     @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        ButterKnife.unbind(this);
+        super.onDestroyView();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().registerSticky(this);
         presenter.startTrackingForNewWishes(this, adapter.getData());
     }
 
     @Override
     public void onStop() {
-        EventBus.getDefault().unregister(this);
-        presenter.stopTrackingForNewWishes();
         super.onStop();
+        presenter.stopTrackingForNewWishes();
     }
 
-    public void onEvent(WishSentEvent event){
-        onRefresh();
-        EventBus.getDefault().removeStickyEvent(event);
+    @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
+
+    public abstract void onEvent(WishSentEvent event);
+
+    public abstract void onEvent(WishLikedEvent event);
 
     public void onEvent(AuthSuccessEvent event){
         initViews();
@@ -108,12 +121,7 @@ public abstract class WishListBaseFragment
         errorView.setTypeface(App.getInstance().getTypeface(CustomTypeFace.MyTypeFace.ROBOTO_ITALIC));
         hasNewWishesTv.setTypeface(App.getInstance().getTypeface(CustomTypeFace.MyTypeFace.ROBOTO_REGULAR));
 
-        contentView.setVisibility(View.VISIBLE);
-        recyclerView.setHasFixedSize(true);
-        adapter = new WishesAdapter(this);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(llm);
-        recyclerView.setAdapter(adapter);
 
         myRecyclerOnScrollListener = new MyRecyclerOnScrollListener(llm) {
             @Override
@@ -131,6 +139,14 @@ public abstract class WishListBaseFragment
                 fragmentInteractionListener.onScrollDown();
             }
         };
+
+        contentView.setVisibility(View.VISIBLE);
+        recyclerView.setHasFixedSize(true);
+        adapter = new WishesAdapter(this, myRecyclerOnScrollListener);
+        recyclerView.setLayoutManager(llm);
+        recyclerView.setAdapter(adapter);
+
+
 
         recyclerView.addOnScrollListener(myRecyclerOnScrollListener);
 
@@ -263,17 +279,5 @@ public abstract class WishListBaseFragment
     @Override
     public void onHasNewWishes(HasNewWishResponse response) {
         hasNewWishesTv.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
     }
 }

@@ -22,7 +22,7 @@ import com.tlab.wish.new_wish.decorations.DecorAdapter;
 import com.tlab.wish.new_wish.decorations.DecorItem;
 import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.utils.ViewUtils;
-import com.tlab.wish.wishes.WishSentEvent;
+import com.tlab.wish.wishes.events.WishSentEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -150,7 +150,7 @@ public abstract class WishActivity extends MvpActivity<WishView, WishPresenter> 
     @Override
     public void onWishSendSuccess(WishSentResponse response) {
         Toast.makeText(this, R.string.wish_sent_toast_msg, Toast.LENGTH_SHORT).show();
-        EventBus.getDefault().postSticky(new WishSentEvent(response));
+        EventBus.getDefault().post(new WishSentEvent(response));
         finish();
     }
 

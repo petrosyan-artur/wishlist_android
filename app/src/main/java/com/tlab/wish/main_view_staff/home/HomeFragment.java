@@ -9,6 +9,11 @@ import android.view.ViewGroup;
 import com.tlab.wish.R;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBaseFragment;
 import com.tlab.wish.main_view_staff.wish_list_base.WishListBasePresenter;
+import com.tlab.wish.wishes.Wish;
+import com.tlab.wish.wishes.events.WishLikedEvent;
+import com.tlab.wish.wishes.events.WishSentEvent;
+
+import java.util.List;
 
 public class HomeFragment extends WishListBaseFragment implements HomeFrView{
 
@@ -31,4 +36,21 @@ public class HomeFragment extends WishListBaseFragment implements HomeFrView{
         return new HomeFrPresenter();
     }
 
+    @Override
+    public void onEvent(WishSentEvent event) {
+        onRefresh();
+    }
+
+    @Override
+    public void onEvent(WishLikedEvent event) {
+        final List<Wish> wishes = adapter.getData();
+        final Wish wish = event.getWish();
+
+        if(!wishes.contains(wish)){return;}
+
+        final Wish oldWish = wishes.get(wishes.indexOf(wish));
+        oldWish.setLiked(wish.isLiked());
+        oldWish.setLikes(wish.getLikes());
+        notifyDataSetChanged();
+    }
 }
