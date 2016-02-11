@@ -13,7 +13,6 @@ import rx.Observable;
  */
 public class MyWishesPresenter extends WishListBasePresenter<MyWishesView>{
 
-
     @Override
     public void onViewCreated() {
         if(!isViewAttached()){return;}

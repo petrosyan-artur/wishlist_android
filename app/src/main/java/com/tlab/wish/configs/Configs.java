@@ -23,10 +23,14 @@ public @Data class Configs implements Serializable{
 
     @SerializedName("wish_limit")
     @Expose
-    public int wishLimit = 12; // Default value
+    public int wishLimit = 50; // Default value
 
     @SerializedName("messages")
     @Expose
     public Messages messages;
+
+    @SerializedName("wish_check_interval")
+    @Expose
+    public int wishCheckInterval = 30;
 
 }

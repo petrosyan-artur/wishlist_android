@@ -9,6 +9,7 @@ import com.tlab.wish.authentication.AuthResponse;
 import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
 import com.tlab.wish.configs.Configuration;
+import com.tlab.wish.main_view_staff.wish_list_base.HasNewWishResponse;
 import com.tlab.wish.main_view_staff.likes.LikeRequestObj;
 import com.tlab.wish.new_wish.WishSentResponse;
 import com.tlab.wish.wishes.Wish;
@@ -139,6 +140,11 @@ public class WishesAPI implements WishAPIInterface{
     @Override
     public Observable<Wishes> getUserLikedWishesAuthenticated(String userId) {
         return apiService.getUserLikedWishesAuthenticated(userId);
+    }
+
+    @Override
+    public Observable<HasNewWishResponse> checkHasNewWishes(String newestWishId) {
+        return apiService.checkHasNewWishes(newestWishId);
     }
 
     @Override

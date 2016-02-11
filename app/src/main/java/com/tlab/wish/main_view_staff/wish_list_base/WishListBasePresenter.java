@@ -103,7 +103,6 @@ public abstract class WishListBasePresenter<T extends WishListBaseView> extends 
         subscriptions.add(subscription);
     }
 
-
     public void onWishItemClicked(Wish wish){
         // shuld be overriden in MyWishesPresenter
     }
@@ -210,5 +209,31 @@ public abstract class WishListBasePresenter<T extends WishListBaseView> extends 
     public abstract Observable<Wishes> getWishesObservable();
 
     public abstract Observable<Wishes> loadMoreWishesObservable(String loadedCount);
+
+
+    ///// New Wishes Treacker Staff
+    private NewWishsTracker newWishsTracker;
+
+    public void createNewWishTracker(){
+        newWishsTracker = new NewWishsTracker();
+    }
+
+    public void startTrackingForNewWishes(NewWishsTracker.HasNewWishesListener listener, List<Wish> wishs){
+        if(newWishsTracker != null) {
+            newWishsTracker.startTrackingForNewWishes(listener, wishs);
+        }
+    }
+
+    public void updateWihesList(List<Wish> wishs){
+        if(newWishsTracker != null) {
+            newWishsTracker.updateWihesList(wishs);
+        }
+    }
+
+    public void stopTrackingForNewWishes(){
+        if(newWishsTracker != null) {
+            newWishsTracker.stopTrackingForNewWishes();
+        }
+    }
 
 }

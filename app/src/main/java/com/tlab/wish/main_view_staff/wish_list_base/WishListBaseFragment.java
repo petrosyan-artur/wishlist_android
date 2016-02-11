@@ -35,7 +35,8 @@ import de.greenrobot.event.EventBus;
  */
 public abstract class WishListBaseFragment
         extends MvpLceFragment<SwipeRefreshLayout, List<Wish>, WishListBaseView, WishListBasePresenter<WishListBaseView>>
-        implements WishListBaseView, SwipeRefreshLayout.OnRefreshListener, WishesAdapter.WishItemClickListener{
+        implements WishListBaseView, SwipeRefreshLayout.OnRefreshListener, WishesAdapter.WishItemClickListener,
+                    NewWishsTracker.HasNewWishesListener{
 
     @Bind(R.id.authErrorView)
     View authErrorView;
@@ -45,6 +46,9 @@ public abstract class WishListBaseFragment
 
     @Bind(R.id.wish_list_rv)
     RecyclerView recyclerView;
+
+    @Bind(R.id.has_new_wishes)
+    TextView hasNewWishesTv;
 
     WishesAdapter adapter;
 
@@ -75,17 +79,18 @@ public abstract class WishListBaseFragment
     public void onStart() {
         super.onStart();
         EventBus.getDefault().registerSticky(this);
+        presenter.startTrackingForNewWishes(this, adapter.getData());
     }
 
     @Override
     public void onStop() {
         EventBus.getDefault().unregister(this);
+        presenter.stopTrackingForNewWishes();
         super.onStop();
     }
 
     public void onEvent(WishSentEvent event){
-        adapter.updateWish(event.getResponse().getWish());
-        loadData(true);
+        onRefresh();
         EventBus.getDefault().removeStickyEvent(event);
     }
 
@@ -101,6 +106,7 @@ public abstract class WishListBaseFragment
         contentView.setColorSchemeColors(R.color.colorPrimary);
 
         errorView.setTypeface(App.getInstance().getTypeface(CustomTypeFace.MyTypeFace.ROBOTO_ITALIC));
+        hasNewWishesTv.setTypeface(App.getInstance().getTypeface(CustomTypeFace.MyTypeFace.ROBOTO_REGULAR));
 
         contentView.setVisibility(View.VISIBLE);
         recyclerView.setHasFixedSize(true);
@@ -164,6 +170,12 @@ public abstract class WishListBaseFragment
         return presenter.getErrorMessage(e, pullToRefresh);
     }
 
+    @OnClick(R.id.has_new_wishes)
+    public void onHasNewWishesClick(){
+        onRefresh();
+        hasNewWishesTv.setVisibility(View.GONE);
+    }
+
     @Override
     public void onRefresh() {
         myRecyclerOnScrollListener.reset();
@@ -172,13 +184,13 @@ public abstract class WishListBaseFragment
 
     @Override
     public void setData(List<Wish> data) {
-        adapter.addData(data, false);
-        adapter.notifyDataSetChanged();
+        setData(data, false);
     }
 
     @Override
     public void setData(List<Wish> data, boolean fromBegining) {
         adapter.addData(data, fromBegining);
+        presenter.updateWihesList(adapter.getData());
         adapter.notifyDataSetChanged();
     }
 
@@ -246,6 +258,11 @@ public abstract class WishListBaseFragment
     @Override
     public void onWishUserNameClicked(Wish wish) {
         presenter.onWishUserNameClicked(wish);
+    }
+
+    @Override
+    public void onHasNewWishes(HasNewWishResponse response) {
+        hasNewWishesTv.setVisibility(View.VISIBLE);
     }
 
     @Override

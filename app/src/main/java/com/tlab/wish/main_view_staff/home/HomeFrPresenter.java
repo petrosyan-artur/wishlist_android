@@ -12,6 +12,10 @@ import rx.Observable;
  */
 public class HomeFrPresenter extends WishListBasePresenter<HomeFrView>{
 
+    public HomeFrPresenter() {
+        createNewWishTracker();
+    }
+
     @Override
     public void onViewCreated() {
         if(isViewAttached()){

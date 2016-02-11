@@ -58,6 +58,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 
     private void initTabs(){
         adapter =  new ViewPagerAdapter(getSupportFragmentManager());
+        pager.setOffscreenPageLimit(4);
         pager.setAdapter(adapter);
 
         tabs.setDistributeEvenly(true);

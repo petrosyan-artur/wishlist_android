@@ -14,6 +14,22 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:id="@+id/has_new_wishes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="@android:color/white"
+        android:drawableLeft="@drawable/arrow_up"
+        android:drawablePadding="5dp"
+        android:background="@drawable/round_corner_blue"
+        android:text="New Wishes"
+        android:visibility="gone"/>
 
     <ProgressBar
         android:id="@+id/loadingView"

@@ -5,6 +5,7 @@ import com.tlab.wish.authentication.AuthResponse;
 import com.tlab.wish.authentication.SignInInfo;
 import com.tlab.wish.authentication.SignUpInfo;
 import com.tlab.wish.configs.Configuration;
+import com.tlab.wish.main_view_staff.wish_list_base.HasNewWishResponse;
 import com.tlab.wish.main_view_staff.likes.LikeRequestObj;
 import com.tlab.wish.new_wish.WishSentResponse;
 import com.tlab.wish.wishes.Wish;
@@ -55,6 +56,9 @@ public interface WishAPIInterface {
 
     @GET("private/wishes?liked=1")
     Observable<Wishes> getUserLikedWishesAuthenticated(@Query("userId") String userId);
+
+    @GET("private/wishes?count=1")
+    Observable<HasNewWishResponse> checkHasNewWishes(@Query("wishId") String newestWishId);
 
     @GET("private/wishes?liked=1")
     Observable<Wishes> loadMoreUserLikedWishesAuthenticated(@Query("limit") String limit, @Query("userId") String userId);

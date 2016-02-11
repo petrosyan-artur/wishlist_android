@@ -30,4 +30,5 @@ public class HomeFragment extends WishListBaseFragment implements HomeFrView{
     public WishListBasePresenter createPresenter() {
         return new HomeFrPresenter();
     }
+
 }
