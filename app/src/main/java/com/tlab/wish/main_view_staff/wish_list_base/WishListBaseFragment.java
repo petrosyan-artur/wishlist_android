@@ -65,7 +65,7 @@ public abstract class WishListBaseFragment
 
         presenter.onViewCreated();
 
-        EventBus.getDefault().registerSticky(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -89,7 +89,9 @@ public abstract class WishListBaseFragment
     @Override
     public void onStart() {
         super.onStart();
-        presenter.startTrackingForNewWishes(this, adapter.getData());
+        if(adapter != null) {
+            presenter.startTrackingForNewWishes(this, adapter.getData());
+        }
     }
 
     @Override
@@ -204,7 +206,9 @@ public abstract class WishListBaseFragment
 
     @Override
     public void onRefresh() {
-        myRecyclerOnScrollListener.reset();
+        if(myRecyclerOnScrollListener != null) {
+            myRecyclerOnScrollListener.reset();
+        }
         loadData(true);
     }
 
