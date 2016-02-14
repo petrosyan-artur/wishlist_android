@@ -1,0 +1,3 @@
+pass: WishKeyPass123
+alias: wishalias
+alias_pass: WishKeyPass123
