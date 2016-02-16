@@ -120,7 +120,7 @@ public abstract class WishListBasePresenter<T extends WishListBaseView> extends 
         }
 
         Subscription subscription = WishesAPI.getInstanse()
-                .removeWish(wish.getId(), App.getInstance().getPrefs().getUsername())
+                .removeWish(wish.getId(), App.getInstance().getPrefs().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GeneralResponse>() {

@@ -192,7 +192,7 @@ public class WishesAPI implements WishAPIInterface{
     }
 
     @Override
-    public Observable<GeneralResponse> removeWish(String wishId, String username) {
-        return apiService.removeWish(wishId, username);
+    public Observable<GeneralResponse> removeWish(String wishId, String userId) {
+        return apiService.removeWish(wishId, userId);
     }
 }
