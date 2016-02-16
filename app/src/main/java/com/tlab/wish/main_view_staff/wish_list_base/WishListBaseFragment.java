@@ -22,6 +22,7 @@ import com.tlab.wish.utils.MyRecyclerOnScrollListener;
 import com.tlab.wish.wishes.Wish;
 import com.tlab.wish.wishes.WishesAdapter;
 import com.tlab.wish.wishes.events.WishDeletedEvent;
+import com.tlab.wish.wishes.events.WishEditedEvent;
 import com.tlab.wish.wishes.events.WishLikedEvent;
 import com.tlab.wish.wishes.events.WishSentEvent;
 
@@ -109,6 +110,18 @@ public abstract class WishListBaseFragment
     public abstract void onEvent(WishSentEvent event);
 
     public abstract void onEvent(WishLikedEvent event);
+
+    public void onEvent(WishEditedEvent event){
+        final List<Wish> wishes = adapter.getData();
+        final Wish wish = event.getResponse().getWish();
+
+        if(!wishes.contains(wish)){return;}
+
+        final Wish oldWish = wishes.get(wishes.indexOf(wish));
+        oldWish.setContent(wish.getContent());
+        oldWish.setDecoration(wish.getDecoration());
+        notifyDataSetChanged();
+    }
 
     public void onEvent(WishDeletedEvent event){
         adapter.removeWish(event.getWish());

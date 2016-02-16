@@ -24,5 +24,7 @@ public interface WishView extends MvpView{
 
     void onWishSendSuccess(WishSentResponse wishSentResponse);
 
+    void onWishEditSuccess(WishSentResponse wishSentResponse);
+
     void decorateView(DecorItem item);
 }

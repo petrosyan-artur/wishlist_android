@@ -64,6 +64,18 @@ public abstract class WishPresenter extends MvpBasePresenter<WishView> {
         }
     }
 
+    public void onWishEdited(WishSentResponse response){
+        if(!isViewAttached()){return;}
+
+        if(response.isSuccess()){
+            getView().hideLoading();
+            getView().onWishEditSuccess(response);
+        } else {
+            getView().hideLoading();
+            getView().showAuthError(response.getMessage());
+        }
+    }
+
     public void showUnknownError(boolean finsihActivity){
         if(!isViewAttached()){return;}
         getView().hideLoading();

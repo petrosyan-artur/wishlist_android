@@ -26,4 +26,5 @@
     <string name="sign_in_btn">SIGN IN</string>
     <string name="no_more_characters_allowed">No more characters allowed</string>
     <string name="wish_sent_toast_msg">Sent</string>
+    <string name="wish_edited_toast_msg">Edited</string>
 </resources>

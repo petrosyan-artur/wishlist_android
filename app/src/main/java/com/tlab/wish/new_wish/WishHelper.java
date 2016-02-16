@@ -43,7 +43,7 @@ public class WishHelper {
 
                     @Override
                     public void onNext(WishSentResponse wishResponse) {
-                        presenter.onWishSent(wishResponse);
+                        presenter.onWishEdited(wishResponse);
                     }
                 });
     }
