@@ -24,7 +24,6 @@ public abstract class MyRecyclerOnScrollListener extends RecyclerView.OnScrollLi
 
     public void reset(){
         previousTotal = 0;
-        loading = true;
         firstVisibleItem = 0;
         visibleItemCount = 0;
         totalItemCount = 0;
