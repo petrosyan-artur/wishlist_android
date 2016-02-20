@@ -3,6 +3,8 @@ package com.tlab.wish.main_view_staff.wish_list_base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import com.tlab.wish.R;
 import com.tlab.wish.authentication.AuthActivity;
 import com.tlab.wish.authentication.AuthSuccessEvent;
 import com.tlab.wish.main_view_staff.FragmentInteractionListener;
+import com.tlab.wish.main_view_staff.user_wishes.UserWishesFragment;
 import com.tlab.wish.utils.DialogUtils;
 import com.tlab.wish.utils.MyRecyclerOnScrollListener;
 import com.tlab.wish.wishes.Wish;
@@ -73,6 +76,8 @@ public abstract class WishListBaseFragment
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
+        setupMainLayout(activity);
+
         try{
             fragmentInteractionListener = (FragmentInteractionListener) activity;
         } catch (ClassCastException e){
@@ -105,6 +110,16 @@ public abstract class WishListBaseFragment
     public void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
+    }
+
+    protected void setupMainLayout(Activity activity){
+        activity.findViewById(R.id.main_tabs_layout).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.main_secondary_layout).setVisibility(View.GONE);
+    }
+
+    protected void setupSecondaryLayout(Activity activity){
+        activity.findViewById(R.id.main_tabs_layout).setVisibility(View.GONE);
+        activity.findViewById(R.id.main_secondary_layout).setVisibility(View.VISIBLE);
     }
 
     public abstract void onEvent(WishSentEvent event);
@@ -296,6 +311,19 @@ public abstract class WishListBaseFragment
     @Override
     public void onWishUserNameClicked(Wish wish) {
         presenter.onWishUserNameClicked(wish);
+    }
+
+    @Override
+    public void openUserWishes(Wish wish) {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        ft.add(R.id.main_container, UserWishesFragment.newInstanse(wish.getUserId(), wish.getUsername()));
+        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        ft.addToBackStack(null);
+
+        ft.commit();
+
     }
 
     @Override

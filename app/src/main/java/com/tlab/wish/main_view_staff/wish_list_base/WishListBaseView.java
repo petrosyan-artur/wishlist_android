@@ -28,4 +28,5 @@ public interface WishListBaseView extends MvpLceView<List<Wish>> {
 
     void showToastMessage(int messageId);
 
+    void openUserWishes(Wish wish);
 }

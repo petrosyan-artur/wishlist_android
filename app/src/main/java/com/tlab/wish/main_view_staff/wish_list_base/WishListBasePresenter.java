@@ -170,7 +170,7 @@ public abstract class WishListBasePresenter<T extends WishListBaseView> extends 
     }
 
     public void onWishUserNameClicked(Wish wish){
-
+        if(isViewAttached()){getView().openUserWishes(wish);}
     }
 
     public String getErrorMessage(Throwable e, boolean pullToRefresh) {
